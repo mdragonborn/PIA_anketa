@@ -1,0 +1,53 @@
+<div class="row" style="margin-top:40px; padding:20px; background-color:#eff0f2;border-radius:15px;
+-webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);
+-moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);
+box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);">
+  <div class="col-sm-12" style="text-align:center;">
+    Register
+  </div>
+
+  <div class="col-sm-12">
+    <form [formGroup]="registerForm">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Ime</label>
+        <input formControlName="ime" type="string" class="form-control" id="ime" aria-describedby="emailHelp" placeholder="Ime">
+        <small id="emailHelp" class="form-text text-muted"></small>
+      </div>
+      <div>
+      <label for="exampleInputEmail1">Prezime</label>
+      <input formControlName="prezime" type="string" class="form-control" id="prezime" aria-describedby="emailHelp" placeholder="Prezime">
+      <small id="emailHelp" class="form-text text-muted"></small>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Korisnicko ime</label>
+        <input formControlName="username" type="string" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Korisnicko ime">
+        <small id="emailHelp" class="form-text text-muted"></small>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">JMBG</label>
+        <input formControlName="jmbg" type="long" class="form-control" id="jmbg" aria-describedby="emailHelp" placeholder="JMBG">
+        <small id="emailHelp" class="form-text text-muted"></small>
+      </div>
+      <!-- /datum i mesto rodjenja, kontakt telefon -->
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email adresa</label>
+        <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+        <small id="emailHelp" class="form-text text-muted"></small>
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Lozinka</label>
+        <input formControlName="password" type="password" class="form-control" id="passwordInput" aria-describedby="passHelp" placeholder="Password">
+        <small id="passHelp" class="form-text text-muted"></small>
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Potvrdi lozinku</label>
+        <input formControlName="passwordConfirm" type="password" class="form-control" id="passwordConfirmInput" aria-describedby="passHelp" placeholder="Confirm Password">
+        <small id="passHelp" class="form-text text-muted"></small>
+      </div>
+
+      <div class="form-group" style="text-align:center;">
+          <button type="button" class="btn btn-dark" (click)="register()">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
