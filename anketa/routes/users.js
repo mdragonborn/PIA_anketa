@@ -49,6 +49,7 @@ async function addToDB(req, res) {
     mesto_rodjenja: req.body.place,
     phone: req.body.phone,
     password:User.hashPassword(req.body.password),
+    kategorija:"I",
     creation_dt: Date.now()
   });
 

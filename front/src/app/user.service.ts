@@ -40,4 +40,12 @@ export class UserService {
       headers:new HttpHeaders().append('Content-Type','application/json')
     })
   }
+
+  captcha() {
+    return this._http.get("http://127.0.0.1:3000/captcha",{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
 }

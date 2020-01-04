@@ -12,6 +12,7 @@ var schema = new Schema({
     mesto_rodjenja: {type:String, require:true},
     phone: {type:String, require: true},
     password:{type:String, require:true},
+    kategorija:{type:String, require:true},
     creation_dt:{type:Date, require:true}
 });
 

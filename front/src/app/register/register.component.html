@@ -7,6 +7,7 @@ box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);">
   </div>
 
   <div class="col-sm-12">
+    <label style="color:red">{{errorMsg}}</label>
     <form [formGroup]="registerForm">
       <div class="form-group">
         <label for="exampleInputEmail1">Ime</label>
@@ -44,6 +45,11 @@ box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);">
         <input formControlName="passwordConfirm" type="password" class="form-control" id="passwordConfirmInput" aria-describedby="passHelp" placeholder="Confirm Password">
         <small id="passHelp" class="form-text text-muted"></small>
       </div>
+      <div class="form-group">
+        <label for="captchaInput">Unesi tekst sa slike </label>
+          <input formControlName="captcha" type="string" class="form-control" id="captchaInput" aria-describedby="captcha" placeholder="Captcha">
+          <canvas id="canv"></canvas>
+        </div>
 
       <div class="form-group" style="text-align:center;">
           <button type="button" class="btn btn-dark" (click)="register()">Register</button>
