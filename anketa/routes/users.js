@@ -38,6 +38,25 @@ function isValidUser(req,res,next){
   else return res.status(401).json({message:'Unauthorized Request'});
 }
 
+router.post('/change', isValidUser, function(req, res, next){
+  console.log("username ", req.user.username);
+  let ret = 304;
+  User.findOne({username:req.user.username}, function(err, doc){
+    if(err){
+      res.send(304, {error: err});
+    }
+    if(!User.comparePassword(req.body.oldpassword, doc.password)){
+     res.send(401, {error: "Wrong password."});
+    }
+    else {
+      doc.password = User.hashPassword(req.body.password);
+      doc.save();
+      req.logout();
+      res.send(200, {message: 'success'});
+    }
+  });
+})
+
 async function addToDB(req, res) {
   var user = new User({
     email:req.body.email,
@@ -50,6 +69,7 @@ async function addToDB(req, res) {
     phone: req.body.phone,
     password:User.hashPassword(req.body.password),
     kategorija:"I",
+    odobren: false,
     creation_dt: Date.now()
   });
 

@@ -25,6 +25,14 @@ export class UserService {
     });
   }
 
+  change(body:any) {
+    return this._http.post("http://127.0.0.1:3000/users/change",body,{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
   user() {
     return this._http.get("http://127.0.0.1:3000/users/user", {
       observe:'body',

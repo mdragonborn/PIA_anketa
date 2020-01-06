@@ -13,11 +13,16 @@ var schema = new Schema({
     phone: {type:String, require: true},
     password:{type:String, require:true},
     kategorija:{type:String, require:true},
-    creation_dt:{type:Date, require:true}
+    creation_dt:{type:Date, require:true},
+    odobren: {type:Boolean, require:true},
 });
 
 schema.statics.hashPassword = function hashPassword(password){
     return bcrypt.hashSync(password,10);
+}
+
+schema.statics.comparePassword = function comparePassword(password, hash) {
+    return bcrypt.compareSync(password, hash);
 }
 
 schema.methods.validPassword = function(hashedpassword){

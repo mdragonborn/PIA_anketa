@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ChangePwdComponent } from './change-pwd/change-pwd.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path:'register', component:RegisterComponent},
   {path:'home', component:HomeComponent},
   {path:'logout', component:LogoutComponent},
+  {path:'changepwd', component:ChangePwdComponent},
 ];
 
 @NgModule({
