@@ -12,7 +12,7 @@ export class ChangePwdComponent implements OnInit {
 
   errorMsg: string;
   registerForm : FormGroup=new FormGroup({
-    password: new FormControl(null, Validators.required),
+    password: new FormControl(null, [Validators.required]), //, Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"),]),
     reppassword: new FormControl(null, Validators.required),
     oldpassword: new FormControl(null, Validators.required),
   });

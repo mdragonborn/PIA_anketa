@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
     prezime:new FormControl(null, Validators.required),
     username:new FormControl(null, Validators.required),
     jmbg:new FormControl(null, Validators.required),
-    password:new FormControl(null, Validators.required),
+    password:new FormControl(null, [Validators.required]),//, Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"),]),
     passwordConfirm:new FormControl(null, Validators.required),
     captcha: new FormControl(null, Validators.required),
   });
