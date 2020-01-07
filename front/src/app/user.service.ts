@@ -56,4 +56,28 @@ export class UserService {
       headers:new HttpHeaders().append('Content-Type','application/json')
     });
   }
+
+  requests() {
+    return this._http.get("http://127.0.0.1:3000/users/requests",{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
+
+  confirm(username: string) {
+    return this._http.get("http://127.0.0.1:3000/users/confirm/"+username,{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
+
+  reject(username: string) {
+    return this._http.get("http://127.0.0.1:3000/users/reject/"+username,{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
 }

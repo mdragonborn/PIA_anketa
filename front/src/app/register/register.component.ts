@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
@@ -9,11 +9,15 @@ import { EmitterVisitorContext } from '@angular/compiler';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements AfterViewInit {
 
   errorMsg: string;
   captcha: string;
   canvas: HTMLCanvasElement;
+  @Input()_admin?:Boolean;
+  displayKategorija:string = "hidden";
+  @ViewChild('canv', {static:false}) canvasElement: ElementRef;
+
   registerForm : FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.email,Validators.required]),
     ime: new FormControl(null, Validators.required),
@@ -22,29 +26,36 @@ export class RegisterComponent implements OnInit {
     jmbg:new FormControl(null, Validators.required),
     password:new FormControl(null, [Validators.required]),//, Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"),]),
     passwordConfirm:new FormControl(null, Validators.required),
+    kategorija: new FormControl('I', [Validators.pattern("I|K|A")]),
     captcha: new FormControl(null, Validators.required),
   });
   constructor(private _router:Router,
-    private _userService:UserService ) { 
+    private _userService:UserService) { 
+    }
+
+  ngAfterViewInit() {
+    if(!this._admin){
+      console.log("admin");
       this._userService.user().subscribe(
         data => { this._router.navigate(['/home']); }
       )
-
-      this._userService.captcha().subscribe(
-        data => {
-          this.captcha = data["captcha"];
-          this.canvas = document.getElementById("canv") as HTMLCanvasElement;
-          let ctx = this.canvas.getContext("2d");
-          this.canvas.width  = 75;
-          this.canvas.height = 30;
-          ctx.font = "15px Verdana";
-          ctx.fillText(this.captcha, 10, 15);
-          
-        }
-      )
+    }
+    else{
+      this.registerForm.addControl("odobren", new FormControl(true));
     }
 
-  ngOnInit() {
+    this._userService.captcha().subscribe(
+      data => {
+        this.captcha = data["captcha"];
+        this.canvas = this.canvasElement.nativeElement as HTMLCanvasElement;
+        let ctx = this.canvas.getContext("2d");
+        this.canvas.width  = 75;
+        this.canvas.height = 30;
+        ctx.font = "15px Verdana";
+        ctx.fillText(this.captcha, 10, 15);
+        
+      }
+    )
   }
 
   moveToRegister(){
@@ -65,7 +76,7 @@ export class RegisterComponent implements OnInit {
       this._userService.captcha().subscribe(
         data => {
           this.captcha = data["captcha"];
-          this.canvas = document.getElementById("canv") as HTMLCanvasElement;
+          this.canvas = this.canvasElement.nativeElement as HTMLCanvasElement;
           let ctx = this.canvas.getContext("2d");
           this.canvas.width  = 75;
           this.canvas.height = 30;
@@ -79,7 +90,13 @@ export class RegisterComponent implements OnInit {
 
     this._userService.register(JSON.stringify(this.registerForm.value))
     .subscribe(
-      data=> {console.log(data); this._router.navigate(['/register']);},
+      data=> {console.log(data); 
+        if(!this._admin) {
+          this._router.navigate(['/login']);
+        } else {
+          this._router.navigate(['/admin']);
+        }
+      },
       error=>console.error(error)
     );
     console.log(JSON.stringify(this.registerForm.value));

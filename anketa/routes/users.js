@@ -57,6 +57,34 @@ router.post('/change', isValidUser, function(req, res, next){
   });
 })
 
+router.get('/requests', isValidUser, function(req, res, next){
+  User.find({odobren:false}, function(err, docs){
+    console.log(docs);
+    var userMap = [];
+
+    docs.forEach(function(user, i) {
+      userMap.push(user);
+    });
+    res.send(200, userMap);
+  })
+});
+
+router.get('/confirm/:username', isValidUser, function(req, res, next){
+  if(req.user['kategorija']!=='A')   return res.status(401);
+  User.findOne({username:req.params.username}, function(err, doc){
+    if(err){
+      res.send(304, {error: err});
+    }
+    else {
+      doc.odobren = true;
+      doc.save();
+      req.logout();
+      res.send(200, {message: 'success'});
+    }
+  });
+  console.log(req.params.username);
+});
+
 async function addToDB(req, res) {
   var user = new User({
     email:req.body.email,

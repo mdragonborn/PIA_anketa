@@ -9,9 +9,21 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  user: Object;
   constructor(private _userService:UserService, private _router: Router) { 
     this._userService.user().subscribe(
-      data => {},
+      data => {
+        console.log(data);
+        if(data['kategorija'] === 'A') {
+          this._router.navigate(['/admin']);
+        } else if (data['kategorija'] === 'I') {
+          this._router.navigate(['/isp']);
+        }
+        else if (data['kategorija'] === 'K') {
+          this._router.navigate(['/kreator'])
+        } else           this._router.navigate(['/isp']);
+
+      },
       error => { console.log(error); this._router.navigate(['/login']); }
     )
   }

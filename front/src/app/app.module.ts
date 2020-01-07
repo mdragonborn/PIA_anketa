@@ -11,6 +11,9 @@ import {UserService} from './user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './logout/logout.component';
 import { ChangePwdComponent } from './change-pwd/change-pwd.component';
+import { AdminComponent } from './admin/admin.component';
+import { IspitanikhomeComponent } from './ispitanikhome/ispitanikhome.component';
+import { KreatorhomeComponent } from './kreatorhome/kreatorhome.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { ChangePwdComponent } from './change-pwd/change-pwd.component';
     HomeComponent,
     LogoutComponent,
     ChangePwdComponent,
+    AdminComponent,
+    IspitanikhomeComponent,
+    KreatorhomeComponent,
   ],
   imports: [
     BrowserModule,
