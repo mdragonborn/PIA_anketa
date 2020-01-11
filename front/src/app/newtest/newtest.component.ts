@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -16,11 +16,24 @@ export class NewtestComponent implements OnInit {
     end: new FormControl(null, Validators.required),
     duration: new FormControl(null),
   });
-  questions : Array<FormGroup> = [new FormGroup({question: new FormControl(null, Validators.required), type: new FormControl(null, Validators.required)})];
+  questions : Array<FormGroup> = [];
+  selectedType = 1;
+  @ViewChild('newquestionprompt', {static:false}) qPrompt: ElementRef;
 
-  constructor() { }
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
+  }
+
+  addQuestion() {
+    this.selectedType = 1;
+    this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:block;');
+  }
+
+  confirmNewQuestion() {
+    this.questions.push(new FormGroup({question: new FormControl(null, Validators.required), type: new FormControl(this.selectedType, Validators.required)}));
+    this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:none');
+    return false;
   }
 
 }

@@ -9,11 +9,12 @@ import { EventEmitter } from 'protractor';
 })
 export class QuestionComponent implements OnInit {
 
-  @Input() controlName: FormGroup;
+  @Input() group: FormGroup;
   // @Output() controlNameChange = new EventEmitter<>();
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    console.log(this.group.get('type').value); 
   }
 
 }

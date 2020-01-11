@@ -36,10 +36,23 @@
     </div>
 </form>
 
-<div *ngFor="let q of questions">
-    <app-question [(formGroup)]="q"></app-question>
+<div *ngFor="let q of questions;">
+    q is {{q.get('type').value}}
+    <app-question [group]='q'></app-question>
 </div>
-<button (click)="addQuestion()"></button>
-<div id="new-question-prompt"></div>
+<button (click)="addQuestion()">Dodaj pitanje</button>
+<div id="newquestionprompt" #newquestionprompt style="display:none">
+    <p>Tip pitanja:</p>
+    <form>
+        <select ng-model='selectedType'>
+            <option value='1'>Slobodan unos broja</option>
+            <option value='2'>Slobodan unos kratkog teksta</option>
+            <option value='3' *ngIf="this.baseForm.get('type').value == 'A'">Slobodan unos dugog teksta</option>
+            <option value='4'>Izbor jednog od ponudjenih odgovora</option>
+            <option value='5'>Izbor vise od ponudjenih odgovora</option>
+        </select>
+    </form>
+    <button (click)='confirmNewQuestion()'>Dodaj</button>
+</div>
 
 <button (click)="submit()">Sacuvaj test</button>
