@@ -1,1 +1,43 @@
-<p>question works! type {{this.group.get('type').value}}</p>
+<form [formGroup]="group">
+    <label>Tekst pitanja</label>
+    <input formControlName="question" type="string" class="form-control"
+    id="text" placeholder="Pitanje">
+    <label>Odgovori</label>
+    <div [ngSwitch]="questionType()">
+        <div *ngSwitchCase="1">
+            <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+                <div formGroupName="{{i}}">
+                    <input type='number' formControlName="answer">
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="2">
+            <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+                <div formGroupName="{{i}}">
+                    <input type='string' formControlName="answer">
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="3">
+            <div formArrayName="answerFields">
+                <div formGroupName="0">
+                    <input type='string' formControlName="answer">
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="4">
+            <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+                <div formGroupName="{{i}}">
+                    <input type='radio' formControlName="answer" value={{i}}>
+                </div>
+            </div>
+        </div>
+        <div *ngSwitchCase="5">
+            <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+                <div formGroupName="{{i}}">
+                    <input type='checkbox' formControlName="answer" value={{i}}>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

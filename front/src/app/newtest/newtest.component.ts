@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UserService } from '../user.service';
 
 @Component({
@@ -29,12 +29,50 @@ export class NewtestComponent implements OnInit {
   }
 
   addQuestion() {
-    this.selectedType = 1;
     this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:block;');
   }
 
+  ngOnChange() {}
+
   confirmNewQuestion() {
-    this.questions.push(new FormGroup({question: new FormControl(null, Validators.required), type: new FormControl(this.selectedType, Validators.required)}));
+    let formGroup;
+    switch(this.selectedType) {
+      case 1: 
+        formGroup = new FormGroup({
+          type: new FormControl('number'),
+          answer: new FormControl(null, Validators.required)
+        });
+        break;
+      case 2:
+        formGroup = new FormGroup({
+          type: new FormControl('string'),
+          answer: new FormControl(null, Validators.required)
+        });
+        break;
+      case 3:
+        formGroup = new FormGroup({
+          type: new FormControl('text'),
+          answer: new FormControl(null, Validators.required)
+        });
+        break;
+      case 4:
+        formGroup = new FormGroup({
+          type: new FormControl('radio'),
+          extraInfo: new FormControl(null, Validators.required),
+          answer: new FormControl(true, Validators.required)
+        });
+        break;
+      case 5:
+        formGroup = new FormGroup({
+          type: new FormControl('checkbox'),
+          answer: new FormControl(null, Validators.required)
+        });
+      break;
+    }
+    let newGroup = new FormGroup({question: new FormControl(null, Validators.required), 
+      type: new FormControl(this.selectedType, Validators.required),
+      answerFields: new FormArray([formGroup])});
+    this.questions.push(newGroup);
     this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:none');
     return false;
   }

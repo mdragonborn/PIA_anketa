@@ -43,15 +43,13 @@
 <button (click)="addQuestion()">Dodaj pitanje</button>
 <div id="newquestionprompt" #newquestionprompt style="display:none">
     <p>Tip pitanja:</p>
-    <form>
-        <select ng-model='selectedType'>
-            <option value='1'>Slobodan unos broja</option>
-            <option value='2'>Slobodan unos kratkog teksta</option>
-            <option value='3' *ngIf="this.baseForm.get('type').value == 'A'">Slobodan unos dugog teksta</option>
-            <option value='4'>Izbor jednog od ponudjenih odgovora</option>
-            <option value='5'>Izbor vise od ponudjenih odgovora</option>
-        </select>
-    </form>
+    <select [(ngModel)]='selectedType'>
+        <option [ngValue]='1'>Slobodan unos broja</option>
+        <option [ngValue]='2'>Slobodan unos kratkog teksta</option>
+        <option [ngValue]='3' *ngIf="this.baseForm.get('type').value == 'A'">Slobodan unos dugog teksta</option>
+        <option [ngValue]='4'>Izbor jednog od ponudjenih odgovora</option>
+        <option [ngValue]='5'>Izbor vise od ponudjenih odgovora</option>
+    </select>
     <button (click)='confirmNewQuestion()'>Dodaj</button>
 </div>
 

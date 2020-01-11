@@ -14,7 +14,14 @@ export class QuestionComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.group.get('type').value); 
+  }
+
+  questionType() {
+    return this.group.get('type').value;
+  }
+
+  answerFields() {
+    return this.group.get('answerFields').value;
   }
 
 }
