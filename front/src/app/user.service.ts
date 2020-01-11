@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,27 @@ export class UserService {
   private loginStateSource = new Subject<boolean>();
   loginState$ = this.loginStateSource.asObservable();
 
-  constructor(private _http:HttpClient) { }
+  userObj: any;
+
+  constructor(private _http:HttpClient, private _router: Router) { 
+    this.checkLogin();
+  }
 
   setLogin(value: boolean) {
     this.loginStateSource.next(value);
+  }
+
+  checkLogin() {
+    this.user().subscribe(
+      data => {
+        console.log(data);
+        this.setLogin(true);
+        this.userObj = data;
+      },
+      error => { console.log(error);
+        this.setLogin(false);
+        this._router.navigate(['/login']); }
+    );
   }
 
   register(body:any) {

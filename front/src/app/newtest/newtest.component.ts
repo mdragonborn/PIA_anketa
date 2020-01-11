@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-newtest',
@@ -20,7 +21,9 @@ export class NewtestComponent implements OnInit {
   selectedType = 1;
   @ViewChild('newquestionprompt', {static:false}) qPrompt: ElementRef;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private _user: UserService) { 
+    this._user.checkLogin();
+  }
 
   ngOnInit() {
   }

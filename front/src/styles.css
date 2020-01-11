@@ -2,3 +2,13 @@
     color: white !important;
     margin: 5px;
 }
+
+.toolbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.content {
+    margin: 50px 0 !important;
+}

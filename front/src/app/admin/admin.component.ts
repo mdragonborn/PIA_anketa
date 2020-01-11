@@ -16,15 +16,7 @@ export class AdminComponent implements OnInit {
     private _router:Router,
     private _userService:UserService
   ) {
-    this._userService.user().subscribe(
-      data => {
-        console.log(data);
-        this._userService.setLogin(true);
-      },
-      error => { console.log(error);
-        this._userService.setLogin(false);
-        this._router.navigate(['/login']); }
-    );
+    this._userService.checkLogin();
 
     this._userService.requests().subscribe(data => {
       this.requests = data as Array<any>;

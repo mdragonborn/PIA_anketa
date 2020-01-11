@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 })
 export class KreatorhomeComponent implements OnInit {
 
-  constructor(private _router: Router, private _userService: UserService) { }
+  constructor(private _router: Router, private _user: UserService) {
+    this._user.checkLogin();
+   }
 
   ngOnInit() {
   }

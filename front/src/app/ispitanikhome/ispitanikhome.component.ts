@@ -9,7 +9,8 @@ import { UserService } from '../user.service';
 })
 export class IspitanikhomeComponent implements OnInit {
 
-  constructor() {
+  constructor(private _user: UserService) {
+    this._user.checkLogin();
 
    }
 

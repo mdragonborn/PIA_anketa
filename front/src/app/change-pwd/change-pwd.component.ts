@@ -19,10 +19,7 @@ export class ChangePwdComponent implements OnInit {
 
   constructor(private _userService:UserService,
     private _router:Router) { 
-    this._userService.user().subscribe(
-      data => {},
-      error => { console.log(error); this._router.navigate(['/login']); }
-    )
+      this._userService.checkLogin();
   }
 
   ngOnInit() {
