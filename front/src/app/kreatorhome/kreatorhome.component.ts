@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-kreatorhome',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KreatorhomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _router: Router, private _userService: UserService) { }
 
   ngOnInit() {
   }

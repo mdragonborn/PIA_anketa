@@ -14,6 +14,8 @@ import { ChangePwdComponent } from './change-pwd/change-pwd.component';
 import { AdminComponent } from './admin/admin.component';
 import { IspitanikhomeComponent } from './ispitanikhome/ispitanikhome.component';
 import { KreatorhomeComponent } from './kreatorhome/kreatorhome.component';
+import { NewtestComponent } from './newtest/newtest.component';
+import { QuestionComponent } from './question/question.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { KreatorhomeComponent } from './kreatorhome/kreatorhome.component';
     AdminComponent,
     IspitanikhomeComponent,
     KreatorhomeComponent,
+    NewtestComponent,
+    QuestionComponent,
   ],
   imports: [
     BrowserModule,

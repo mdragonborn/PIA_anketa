@@ -1,0 +1,45 @@
+<h3>Napravi novi test</h3>
+
+
+<form [formGroup]="baseForm">
+    <div class="form-group">
+        <label for="name">Ime testa</label>
+        <input formControlName="name" type="string" class="form-control"
+        id="name" placeholder="Ime">
+    </div>
+    <div class="form-group">
+        <label for="type">Tip</label>
+        <input formControlName="type" type="radio" class="form-control"
+        id="typea" value='A'> Anketa <br>
+        <input formControlName="type" type="radio" class="form-control"
+        id="typet" value='T'> Test <br>        
+    </div>
+    <div class="form-group">
+        <label for="info">Informacije o testu</label>
+        <input formControlName="info" type="text" class="form-control"
+        id="text" placeholder="Informacije">
+    </div>
+    <div class="form-group">
+        <label for="begin">Pocetak</label>
+        <input formControlName="begin"
+        type="datetime-local" class="form-control" id="begin" placeholder="Ime">
+    </div>
+    <div class="form-group">
+        <label for="end">Pocetak</label>
+        <input formControlName="end"
+        type="datetime-local" class="form-control" id="end" placeholder="Ime">
+    </div>
+    <div class="form-group">
+        <label for="duration">Trajanje izrade</label>
+        <input formControlName="duration"
+        type="number" class="form-control" id="duration" placeholder="Trajanje">
+    </div>
+</form>
+
+<div *ngFor="let q of questions">
+    <app-question [(formGroup)]="q"></app-question>
+</div>
+<button (click)="addQuestion()"></button>
+<div id="new-question-prompt"></div>
+
+<button (click)="submit()">Sacuvaj test</button>

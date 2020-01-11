@@ -8,6 +8,7 @@ import { ChangePwdComponent } from './change-pwd/change-pwd.component';
 import { AdminComponent } from './admin/admin.component';
 import { KreatorhomeComponent } from './kreatorhome/kreatorhome.component';
 import { IspitanikhomeComponent } from './ispitanikhome/ispitanikhome.component';
+import { NewtestComponent } from './newtest/newtest.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path:'changepwd', component:ChangePwdComponent},
   {path: 'admin', component:AdminComponent},
   {path: 'kreator', component:KreatorhomeComponent},
-  {path: 'isp', component: IspitanikhomeComponent}
+  {path: 'isp', component: IspitanikhomeComponent},
+  {path: 'kreator/new', component: NewtestComponent}
 ];
 
 @NgModule({

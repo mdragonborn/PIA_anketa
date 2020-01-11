@@ -40,8 +40,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-anketa/package-lock.json
-front/package-lock.json
+/anketa/package-lock.json
+/front/package-lock.json
 
 # System Files
 .DS_Store
