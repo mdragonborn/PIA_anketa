@@ -9,10 +9,10 @@
     </div>
     <div class="form-group">
         <label for="type">Tip</label>
-        <input formControlName="type" type="radio" class="form-control"
-        id="typea" value='A'> Anketa <br>
-        <input formControlName="type" type="radio" class="form-control"
-        id="typet" value='T'> Test <br>        
+        <span><input formControlName="type" type="radio" class="form-control"
+        id="typea" value='A'> Anketa</span>
+        <span><input formControlName="type" type="radio" class="form-control"
+        id="typet" value='T'> Test</span>      
     </div>
     <div class="form-group">
         <label for="info">Informacije o testu</label>
@@ -36,8 +36,8 @@
     </div>
 </form>
 
-<div *ngFor="let q of questions;">
-    q is {{q.get('type').value}}
+<div *ngFor="let q of questions; let i = index" [attr.data-index]="i">
+    {{i+1}}. Pitanje <button (click)="removeQuestion(i)">Obrisi pitanje</button><br>
     <app-question [group]='q'></app-question>
 </div>
 <button (click)="addQuestion()">Dodaj pitanje</button>

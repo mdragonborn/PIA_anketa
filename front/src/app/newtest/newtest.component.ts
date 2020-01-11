@@ -65,6 +65,7 @@ export class NewtestComponent implements OnInit {
       case 5:
         formGroup = new FormGroup({
           type: new FormControl('checkbox'),
+          extraInfo: new FormControl(null, Validators.required),
           answer: new FormControl(null, Validators.required)
         });
       break;
@@ -75,6 +76,14 @@ export class NewtestComponent implements OnInit {
     this.questions.push(newGroup);
     this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:none');
     return false;
+  }
+
+  removeQuestion(i){
+    if(this.questions[i]){
+      if(window.confirm("Da li ste sigurni da zelite da obrisete pitanje?")){
+        this.questions.splice(i, 1);
+      }
+    }
   }
 
 }

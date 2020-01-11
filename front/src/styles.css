@@ -12,3 +12,31 @@
 .content {
     margin: 50px 0 !important;
 }
+
+.create-question-form {
+    margin: 5px;
+    padding: 15px;
+}
+
+.remove-btn {
+    border: 0;
+    color: red;
+    background-color: rgba(0,0,0,0.03);
+}
+
+.add-btn {
+    border: 0;
+    color: green;
+    background-color: rgba(0,0,0,0.03);
+}
+
+.form-group {
+    width: 250px;
+    display: grid;
+    grid-template-columns: 1;
+}
+
+.form-group input {
+    margin-bottom: 10px;
+}
+
