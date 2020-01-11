@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  private loginStateSource = new Subject<boolean>();
+  loginState$ = this.loginStateSource.asObservable();
+
   constructor(private _http:HttpClient) { }
+
+  setLogin(value: boolean) {
+    this.loginStateSource.next(value);
+  }
 
   register(body:any) {
     return this._http.post("http://127.0.0.1:3000/users/register",body,{

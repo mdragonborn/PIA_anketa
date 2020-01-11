@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
     this._user.login(JSON.stringify(this.loginForm.value))
     .subscribe(data => {
       if (data['message']==="Login Success") {
+        this._user.setLogin(true);
         this._router.navigate(['/home']);
       }
       else {

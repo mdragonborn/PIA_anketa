@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IspitanikhomeComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+
+   }
 
   ngOnInit() {
   }

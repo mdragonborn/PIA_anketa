@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
     this._userService.user().subscribe(
       data => {
         console.log(data);
+        this._userService.setLogin(true);
         if(data['kategorija'] === 'A') {
           this._router.navigate(['/admin']);
         } else if (data['kategorija'] === 'I') {
@@ -24,7 +25,9 @@ export class HomeComponent implements OnInit {
         } else           this._router.navigate(['/isp']);
 
       },
-      error => { console.log(error); this._router.navigate(['/login']); }
+      error => { console.log(error);
+        this._userService.setLogin(false);
+        this._router.navigate(['/login']); }
     )
   }
 
