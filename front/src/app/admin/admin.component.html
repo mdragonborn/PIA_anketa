@@ -1,0 +1,35 @@
+<p  style="text-align: center; ">Pristigli zahtevi</p>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th>JMBG</th>
+        <th>Kategorija</th>
+        <th>Prihvati</th>
+        <th>Odbaci</th>
+    </tr>
+    <tbody>
+        <td colspan="8" *ngIf="!requests || requests.length===0" style="text-align: center; ">Nema pristiglih zahteva</td>
+    <ng-container *ngFor="let user of requests">
+        <tr>
+            <td>{{ user['username'] }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.ime }}</td>
+            <td>{{ user.prezime }}</td>
+            <td>{{ user.jmbg }}</td>
+            <td>{{ user.kategorija }}</td>
+            <td><button (click)="prihvati(user.username)">Prihvati</button></td>
+            <td><button (click)="odbaci(user.username)">Odbaci</button></td>
+        </tr>
+        <!-- other content -->
+    </ng-container>
+    </tbody>
+    
+    <br>
+<div  style="text-align: center; ">
+    <p>Registruj novog korisnika</p>
+    <app-register [_admin]="true"></app-register>
+    </div>
+</table>
