@@ -11,13 +11,16 @@ export class QuestionComponent implements OnInit {
 
   @Input() group: FormGroup;
   rbAnswers = [];
-  // @Output() controlNameChange = new EventEmitter<>();
   constructor() {}
 
   ngOnInit() {
     if(this.questionType()===4){
       this.rbAnswers.push(true);
     }
+  }
+
+  trackByFn(index, item) {
+    return index;
   }
 
   questionType() {

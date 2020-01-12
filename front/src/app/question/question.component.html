@@ -7,7 +7,7 @@
     <div [ngSwitch]="questionType()">
         <div *ngSwitchCase="1">
             <div formArrayName="answerFields"
-            *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+            *ngFor="let field of answerFields(); let i = index; trackBy:trackByFn" [attr.data-index]="i">
                 <div formGroupName="{{i}}" class="question-input-grid">
                     <span *ngIf='i==0'></span><span *ngIf='i==0'>Tekst potpitanja</span><span *ngIf='i==0'>Odgovor</span><span *ngIf='i==0'></span>
                     <span>{{i+1}}.</span>
