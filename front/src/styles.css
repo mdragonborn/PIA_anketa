@@ -31,12 +31,27 @@
 }
 
 .form-group {
-    width: 250px;
+    width: 300px;
     display: grid;
-    grid-template-columns: 1;
+    grid-template-columns: 1fr;
 }
 
 .form-group input {
     margin-bottom: 10px;
 }
 
+.question-input-grid {
+    width: 300px;
+    display: grid;
+    grid-template-columns: 1fr 5fr 5fr 1fr;
+}
+
+.question-input-grid input {
+    margin: 5px;
+}
+
+.question-input-grid-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 10px 0;
+}

@@ -40,12 +40,14 @@ export class NewtestComponent implements OnInit {
       case 1: 
         formGroup = new FormGroup({
           type: new FormControl('number'),
+          extraInfo: new FormControl(null, Validators.required),
           answer: new FormControl(null, Validators.required)
         });
         break;
       case 2:
         formGroup = new FormGroup({
           type: new FormControl('string'),
+          extraInfo: new FormControl(null, Validators.required),
           answer: new FormControl(null, Validators.required)
         });
         break;

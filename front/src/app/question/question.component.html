@@ -6,8 +6,12 @@
     <label>Odgovori</label> <button (click)="add()" class="add-btn" *ngIf="questionType()!==3">+</button><br>
     <div [ngSwitch]="questionType()">
         <div *ngSwitchCase="1">
-            <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
-                <div formGroupName="{{i}}">
+            <div formArrayName="answerFields"
+            *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+                <div formGroupName="{{i}}" class="question-input-grid">
+                    <span *ngIf='i==0'></span><span *ngIf='i==0'>Tekst potpitanja</span><span *ngIf='i==0'>Odgovor</span><span *ngIf='i==0'></span>
+                    <span>{{i+1}}.</span>
+                    <input type="string" formControlName="extraInfo">
                     <input type='number' formControlName="answer"> 
                     <button (click)="remove(i)" *ngIf="i!==0" class="remove-btn">-</button>
                 </div>
@@ -16,6 +20,8 @@
         <div *ngSwitchCase="2">
             <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
                 <div formGroupName="{{i}}">
+                    <span *ngIf='i==0'></span><span *ngIf='i==0'>Tekst potpitanja</span><span *ngIf='i==0'>Odgovor</span><span *ngIf='i==0'></span>
+                    <input type="string" formControlName="extraInfo">
                     <input type='string' formControlName="answer">
                     <button (click)="remove(i)" *ngIf="i!==0" class="remove-btn">-</button>
                 </div>
