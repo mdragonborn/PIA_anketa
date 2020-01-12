@@ -30,18 +30,16 @@
         <div *ngSwitchCase="3">
             <div formArrayName="answerFields">
                 <div formGroupName="0">
-                    <!-- TODO veliko tekst polje -->
-                    <input type='text' formControlName="answer"> 
+                    <textarea formControlName="answer" style="height: 5rem;"></textarea>
                 </div>
             </div>
         </div>
         <div *ngSwitchCase="4">
             <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
                 <div formGroupName="{{i}}">
-                    <input type='radio' formControlName="answer" value="{{i}}">
+                    <input type='radio' [checked]="rbAnswers[i]" (change)="radioChecked(i)">
                     <input type='string' formControlName="extraInfo">
                     <button (click)="remove(i)" *ngIf="i!==0" class="remove-btn">-</button>
-                    
                 </div>
             </div>
         </div>

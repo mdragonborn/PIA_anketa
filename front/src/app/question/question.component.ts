@@ -10,10 +10,14 @@ import { EventEmitter } from 'protractor';
 export class QuestionComponent implements OnInit {
 
   @Input() group: FormGroup;
+  rbAnswers = [];
   // @Output() controlNameChange = new EventEmitter<>();
   constructor() {}
 
   ngOnInit() {
+    if(this.questionType()===4){
+      this.rbAnswers.push(true);
+    }
   }
 
   questionType() {
@@ -53,6 +57,7 @@ export class QuestionComponent implements OnInit {
           extraInfo: new FormControl(null, Validators.required),
           answer: new FormControl(true, Validators.required)
         });
+        this.rbAnswers.push(false);
         break;
       case 5:
         formGroup = new FormGroup({
@@ -71,12 +76,33 @@ export class QuestionComponent implements OnInit {
     (<FormArray>this.group.get('answerFields')).at(i).get('answer').value!==""){
       if(window.confirm("Da li zelite da obrisete polje sa odgovorom?")){
         (<FormArray>this.group.get('answerFields')).removeAt(i);
+        if(this.questionType()===4) {
+          if(this.rbAnswers[i]) this.rbAnswers[i-1] = true;
+          this.rbAnswers.splice(i, 1);
+        }
       }
     }
     else {
       (<FormArray>this.group.get('answerFields')).removeAt(i);
+      if(this.questionType()===4) {
+        if(this.rbAnswers[i]) this.rbAnswers[i-1] = true;
+        this.rbAnswers.splice(i, 1);
+      }
     }
 
+  }
+
+  radioChecked(id){
+    let size = (<FormArray>this.group.get('answerFields')).length;
+    for(let i = 0; i <  this.rbAnswers.length; i++){
+      if(i !== id){ 
+        (<FormArray>this.group.get('answerFields')).at(i).get('answer').setValue(false);
+        this.rbAnswers[i] = false;
+      }else{
+        (<FormArray>this.group.get('answerFields')).at(i).get('answer').setValue(true);
+        this.rbAnswers[i] = true;
+      } 
+    }
   }
 
 }
