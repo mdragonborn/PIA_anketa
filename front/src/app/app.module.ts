@@ -12,8 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './logout/logout.component';
 import { ChangePwdComponent } from './change-pwd/change-pwd.component';
 import { AdminComponent } from './admin/admin.component';
-import { IspitanikhomeComponent } from './ispitanikhome/ispitanikhome.component';
-import { KreatorhomeComponent } from './kreatorhome/kreatorhome.component';
+import { IspitanikHomeComponent } from './ispitanik-home/ispitanik-home.component';
+import { KreatorHomeComponent } from './kreator-home/kreator-home.component';
 import { NewtestComponent } from './newtest/newtest.component';
 import { QuestionComponent } from './question/question.component';
 import { TestsService } from './tests.service';
@@ -27,8 +27,8 @@ import { TestsService } from './tests.service';
     LogoutComponent,
     ChangePwdComponent,
     AdminComponent,
-    IspitanikhomeComponent,
-    KreatorhomeComponent,
+    IspitanikHomeComponent,
+    KreatorHomeComponent,
     NewtestComponent,
     QuestionComponent,
   ],

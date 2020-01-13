@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-ispitanikhome',
-  templateUrl: './ispitanikhome.component.html',
-  styleUrls: ['./ispitanikhome.component.css']
+  selector: 'app-ispitanik-home',
+  templateUrl: './ispitanik-home.component.html',
+  styleUrls: ['./ispitanik-home.component.css']
 })
-export class IspitanikhomeComponent implements OnInit {
+export class IspitanikHomeComponent implements OnInit {
 
   constructor(private _user: UserService) {
     this._user.checkLogin();

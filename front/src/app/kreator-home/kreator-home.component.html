@@ -1,0 +1,26 @@
+<a routerLink='new'><button>New test</button></a>
+
+<table>
+    <tr>
+        <th>Ime</th>
+        <th>Info</th>
+        <th>Tip</th>
+        <th>Pocetak</th>
+        <th>Kraj</th>
+        <th>Trajanje (min)</th>
+        <th>Broj pitanja</th>
+        <th>Detalji</th>
+    </tr>
+    <tr *ngFor="let t of myTests">
+        <td>{{t.name}}</td>
+        <td>{{t.info}}</td>
+        <td>{{type(t.type)}}</td>
+        <td>{{t.begin.toLocaleString()}}</td>
+        <td>{{t.end.toLocaleString()}}</td>
+        <td>{{t.durationMin}}</td>
+        <td>{{questionCount(t)}}</td>
+        <td><button (click)="details(t)">Detalji testa</button></td>
+    </tr>
+</table>
+
+<app-ispitanik-home></app-ispitanik-home>
