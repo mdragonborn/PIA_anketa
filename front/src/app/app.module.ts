@@ -16,6 +16,7 @@ import { IspitanikhomeComponent } from './ispitanikhome/ispitanikhome.component'
 import { KreatorhomeComponent } from './kreatorhome/kreatorhome.component';
 import { NewtestComponent } from './newtest/newtest.component';
 import { QuestionComponent } from './question/question.component';
+import { TestsService } from './tests.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,10 @@ import { QuestionComponent } from './question/question.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    TestsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,16 +1,20 @@
-import { Mongoose } from "mongoose";
+var mongoose = require("mongoose");
 
-var schemaCounters = new Mongoose.Schema({
+var schemaCounters = new mongoose.Schema({
     id: {type: String},
     next: {type: Number}
 });
 
 var model = mongoose.model('Counters', schemaCounters);;
 
-schemaCounters.statics.counter = function(name) {
-    var ret = model.findAndModify({id:name, 
-        update:{$inc:{next:1}}, 'new':true, upsert: true});
-    return ret.next;
-}
-
-module.exports = model;
+module.exports = {
+    model: model,
+    counter: async (name, callback) => {
+        model.findOneAndUpdate({id:name}, 
+            {$inc:{next:1}}, {'new':true, 
+            useFindAndModify: false,
+            upsert: true}, 
+            (err, result) => {
+            return callback(result);});
+    }
+};
