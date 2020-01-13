@@ -11,6 +11,8 @@ export class QuestionComponent implements OnInit {
 
   @Input() group: FormGroup;
   rbAnswers = [];
+  questionTypes = { 1: 'number', 2: 'string', 3: 'text', 4: 'radio', 5: 'checkbox'};
+
   constructor() {}
 
   ngOnInit() {
@@ -33,42 +35,18 @@ export class QuestionComponent implements OnInit {
 
   add() {
     let formGroup;
-    switch(this.questionType()) {
-      case 1: 
-        formGroup = new FormGroup({
-          type: new FormControl('number'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(null, Validators.required)
-        });
-        break;
-      case 2:
-        formGroup = new FormGroup({
-          type: new FormControl('string'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(null, Validators.required)
-        });
-        break;
-      case 3:
-        formGroup = new FormGroup({
-          type: new FormControl('text'),
-          answer: new FormControl(null, Validators.required)
-        });
-        break;
-      case 4:
-        formGroup = new FormGroup({
-          type: new FormControl('radio'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(true, Validators.required)
-        });
-        this.rbAnswers.push(false);
-        break;
-      case 5:
-        formGroup = new FormGroup({
-          type: new FormControl('checkbox'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(null, Validators.required)
-        });
-      break;
+    if(this.questionType()<=3){
+      formGroup = new FormGroup({
+        type: new FormControl(this.questionType[this.questionType()]),
+        extraInfo: new FormControl(null),
+        answer: new FormControl(null, Validators.required)
+      });
+    } else {
+      formGroup = new FormGroup({
+        type: new FormControl(this.questionType[this.questionType()]),
+        extraInfo: new FormControl(null, Validators.required),
+        answer: new FormControl(false, Validators.required)
+      });
     }
 
     (<FormArray>this.group.get('answerFields')).push(formGroup);

@@ -55,3 +55,8 @@
     grid-template-columns: 1fr 1fr;
     margin: 10px 0;
 }
+
+td, th {
+    padding: 0 5px;
+    border: 1px darkgrey solid;
+}

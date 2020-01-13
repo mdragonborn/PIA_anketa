@@ -17,6 +17,7 @@ import { KreatorHomeComponent } from './kreator-home/kreator-home.component';
 import { NewtestComponent } from './newtest/newtest.component';
 import { QuestionComponent } from './question/question.component';
 import { TestsService } from './tests.service';
+import { TestDetailsComponent } from './test-details/test-details.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TestsService } from './tests.service';
     KreatorHomeComponent,
     NewtestComponent,
     QuestionComponent,
+    TestDetailsComponent,
   ],
   imports: [
     BrowserModule,

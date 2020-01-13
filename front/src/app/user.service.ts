@@ -22,12 +22,13 @@ export class UserService {
     this.loginStateSource.next(value);
   }
 
-  checkLogin() {
+  checkLogin(callback = null) {
     this.user().subscribe(
       data => {
         console.log(data);
         this.setLogin(true);
         this.userObj = data;
+        if(callback) callback(this.userObj);
       },
       error => { console.log(error);
         this.setLogin(false);

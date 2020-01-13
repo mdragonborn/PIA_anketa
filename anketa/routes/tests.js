@@ -30,8 +30,18 @@ router.post('/new', isValidUser, function(req, res, next) {
     test.save();
     res.send(200);
   });
-  
 })
+
+router.get('/created', isValidUser, function(req, res, next) {
+  Tests.find({creatorUsername:req.user.username}, (err, docs) => {
+    var testMap = [];
+
+    docs.forEach(function(test, i) {
+      testMap.push(test);
+    });
+    res.send(200, testMap);
+  })
+});
 
 module.exports = router;
 

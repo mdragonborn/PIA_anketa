@@ -9,6 +9,7 @@ import { AdminComponent } from './admin/admin.component';
 import { KreatorHomeComponent } from './kreator-home/kreator-home.component';
 import { IspitanikHomeComponent } from './ispitanik-home/ispitanik-home.component';
 import { NewtestComponent } from './newtest/newtest.component';
+import { TestDetailsComponent } from './test-details/test-details.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'kreator', component:KreatorHomeComponent},
   {path: 'isp', component: IspitanikHomeComponent},
   {path: 'kreator/new', component: NewtestComponent},
+  {path: 'kreator/details', component: TestDetailsComponent}
 ];
 
 @NgModule({
