@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UserService } from '../user.service';
+import { TestsService } from '../tests.service';
 
 @Component({
   selector: 'app-newtest',
@@ -21,7 +22,8 @@ export class NewtestComponent implements OnInit {
   selectedType = 1;
   @ViewChild('newquestionprompt', {static:false}) qPrompt: ElementRef;
 
-  constructor(private renderer: Renderer2, private _user: UserService) { 
+  constructor(private renderer: Renderer2, private _user: UserService,
+    private _test: TestsService) { 
     this._user.checkLogin();
   }
 
@@ -86,6 +88,20 @@ export class NewtestComponent implements OnInit {
         this.questions.splice(i, 1);
       }
     }
+  }
+
+  submit() {
+    // TODO form validation
+    console.log(this.baseForm.value);
+    let data = this.baseForm.value;
+    data['questions'] = []
+    for(let q of this.questions) {
+      data['questions'].push(q.value);
+    }
+    this._test.newTest(this.baseForm.value).subscribe(
+      data => console.log(data),
+      err => console.log(err)
+    )
   }
 
 }
