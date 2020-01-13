@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UserService } from '../user.service';
 import { TestsService } from '../tests.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newtest',
@@ -16,18 +17,25 @@ export class NewtestComponent implements OnInit {
     info: new FormControl(null),
     begin: new FormControl(null, Validators.required),
     end: new FormControl(null, Validators.required),
-    duration: new FormControl(null),
+    durationMin: new FormControl(null),
   });
   questions : Array<FormGroup> = [];
+  questionTypes = { 1: 'number', 2: 'string', 3: 'text', 4: 'radio', 5: 'checkbox'};
   selectedType = 1;
+  errorMsg: String = "";
   @ViewChild('newquestionprompt', {static:false}) qPrompt: ElementRef;
 
   constructor(private renderer: Renderer2, private _user: UserService,
-    private _test: TestsService) { 
+    private _test: TestsService, private _router: Router) { 
     this._user.checkLogin();
   }
 
   ngOnInit() {
+    let date = new Date();
+    date.setHours(date.getHours()+1);
+    this.baseForm.get('begin').setValue(date.toISOString().substring(0,19));
+    date.setDate(date.getDate()+1);
+    this.baseForm.get('end').setValue(date.toISOString().substring(0,19));
   }
 
   addQuestion() {
@@ -37,43 +45,15 @@ export class NewtestComponent implements OnInit {
   ngOnChange() {}
 
   confirmNewQuestion() {
-    let formGroup;
-    switch(this.selectedType) {
-      case 1: 
-        formGroup = new FormGroup({
-          type: new FormControl('number'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(null, Validators.required)
-        });
-        break;
-      case 2:
-        formGroup = new FormGroup({
-          type: new FormControl('string'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(null, Validators.required)
-        });
-        break;
-      case 3:
-        formGroup = new FormGroup({
-          type: new FormControl('text'),
-          answer: new FormControl(null, Validators.required)
-        });
-        break;
-      case 4:
-        formGroup = new FormGroup({
-          type: new FormControl('radio'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(true, Validators.required)
-        });
-        break;
-      case 5:
-        formGroup = new FormGroup({
-          type: new FormControl('checkbox'),
-          extraInfo: new FormControl(null, Validators.required),
-          answer: new FormControl(null, Validators.required)
-        });
-      break;
+    let formGroup = new FormGroup({
+      type: new FormControl(this.questionTypes[this.selectedType]),
+      extraInfo: new FormControl(null),
+      answer: new FormControl(null, Validators.required)
+    });
+    if(this.selectedType>3){
+      formGroup.get('extraInfo').setValidators(Validators.required);
     }
+
     let newGroup = new FormGroup({question: new FormControl(null, Validators.required), 
       type: new FormControl(this.selectedType, Validators.required),
       answerFields: new FormArray([formGroup])});
@@ -89,17 +69,41 @@ export class NewtestComponent implements OnInit {
       }
     }
   }
-
+  
   submit() {
-    // TODO form validation
-    console.log(this.baseForm.value);
+
+    if(!this.baseForm.valid) {
+      this.errorMsg = "Nedostaju obavezna polja."
+      return;
+    }
+
+    if(this.questions.length===0) {
+      this.errorMsg = (this.baseForm.get('type').value==='A'?"Anketa":"Test")+" mora da ima barem jedno pitanje."
+      return;
+    }
+    let invalid = false;
+    this.errorMsg = "";
+    let i = 0;
+    for(let q of this.questions){
+      if(!q.valid) {
+        invalid = true;
+        this.errorMsg += "Nedostaju obavezna polja u pitanju br. "+i+"\n";
+      }
+      i++;
+    }
+    if(invalid) return;
+
     let data = this.baseForm.value;
     data['questions'] = []
     for(let q of this.questions) {
       data['questions'].push(q.value);
     }
+
     this._test.newTest(this.baseForm.value).subscribe(
-      data => console.log(data),
+      data => {
+        console.log(data);
+        this._router.navigate(['/..']);
+      },
       err => console.log(err)
     )
   }

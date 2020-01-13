@@ -25,10 +25,9 @@ router.post('/new', isValidUser, function(req, res, next) {
       creatorUsername: creator,
       id: id.next
     };
-    console.log(testData)
-    // var test = new Tests(testData);
+    var test = new Tests(testData);
   
-    // test.save();
+    test.save();
     res.send(200);
   });
   

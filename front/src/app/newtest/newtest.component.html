@@ -1,6 +1,6 @@
 <h3>Napravi novi test</h3>
 
-
+<h5 style="color:red;">{{this.errorMsg}}</h5>
 <form [formGroup]="baseForm">
     <div class="form-group">
         <label for="name">Ime testa</label>
@@ -25,14 +25,14 @@
         type="datetime-local" class="form-control" id="begin" placeholder="Ime">
     </div>
     <div class="form-group">
-        <label for="end">Pocetak</label>
+        <label for="end">Kraj</label>
         <input formControlName="end"
         type="datetime-local" class="form-control" id="end" placeholder="Ime">
     </div>
     <div class="form-group">
-        <label for="duration">Trajanje izrade</label>
-        <input formControlName="duration"
-        type="number" class="form-control" id="duration" placeholder="Trajanje">
+        <label for="durationMin">Trajanje izrade (minuti)</label>
+        <input formControlName="durationMin"
+        type="number" class="form-control" id="durationMin" placeholder="Trajanje">
     </div>
 </form>
 
