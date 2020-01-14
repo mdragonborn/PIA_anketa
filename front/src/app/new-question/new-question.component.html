@@ -1,8 +1,8 @@
-<div class="create-question-form">
+<div class="box create-question-form">
     <form [formGroup]="group">
     <label>Tekst pitanja</label><br>
     <input formControlName="question" type="string" class="form-control"
-    id="text" placeholder="Pitanje"> <br>
+    id="text" placeholder="Pitanje"> <br><br>
     <label>Odgovori</label> <button (click)="add()" class="add-btn" *ngIf="questionType()!==3">+</button><br>
     <div [ngSwitch]="questionType()">
         <div *ngSwitchCase="1">
@@ -19,8 +19,9 @@
         </div>
         <div *ngSwitchCase="2">
             <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index; trackBy:trackByFn" [attr.data-index]="i">
-                <div formGroupName="{{i}}">
+                <div formGroupName="{{i}}" class="question-input-grid">
                     <span *ngIf='i==0'></span><span *ngIf='i==0'>Tekst potpitanja</span><span *ngIf='i==0'>Odgovor</span><span *ngIf='i==0'></span>
+                    <span>{{i+1}}.</span>
                     <input type="string" formControlName="extraInfo">
                     <input type='string' formControlName="answer">
                     <button (click)="remove(i)" *ngIf="i!==0" class="remove-btn">-</button>

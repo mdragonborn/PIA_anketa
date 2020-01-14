@@ -13,11 +13,6 @@
     margin-top: 70px !important;
 }
 
-.create-question-form {
-    margin: 5px;
-    padding: 15px;
-}
-
 .remove-btn {
     border: 0;
     color: red;
@@ -85,6 +80,9 @@ td, th {
     border-radius: 7px;
     border: 2px darkgrey solid;
     box-shadow: 2px 2px 1px 0px rgba(0,0,0,0.2);
+    width: 100%;
+    position: relative;
+    left: -25px;
 }
 
 .filled {

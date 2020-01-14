@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { EventEmitter } from 'protractor';
 
 @Component({
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  selector: 'app-new-question',
+  templateUrl: './new-question.component.html',
+  styleUrls: ['./new-question.component.css']
 })
-export class QuestionComponent implements OnInit {
+export class NewQuestionComponent implements OnInit {
 
   @Input() group: FormGroup;
   rbAnswers = [];

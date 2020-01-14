@@ -15,7 +15,7 @@ import { AdminComponent } from './admin/admin.component';
 import { IspitanikHomeComponent } from './ispitanik-home/ispitanik-home.component';
 import { KreatorHomeComponent } from './kreator-home/kreator-home.component';
 import { NewtestComponent } from './newtest/newtest.component';
-import { QuestionComponent } from './question/question.component';
+import { NewQuestionComponent } from './new-question/new-question.component';
 import { TestsService } from './tests.service';
 import { TestDetailsComponent } from './test-details/test-details.component';
 import { TestingComponent } from './testing/testing.component';
@@ -33,7 +33,7 @@ import { DisplayQuestionComponent } from './display-question/display-question.co
     IspitanikHomeComponent,
     KreatorHomeComponent,
     NewtestComponent,
-    QuestionComponent,
+    NewQuestionComponent,
     TestDetailsComponent,
     TestingComponent,
     DisplayQuestionComponent,

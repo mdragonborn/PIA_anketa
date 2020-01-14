@@ -38,7 +38,7 @@
 
 <div *ngFor="let q of questions; let i = index" [attr.data-index]="i">
     {{i+1}}. Pitanje <button (click)="removeQuestion(i)">Obrisi pitanje</button><br>
-    <app-question [group]='q'></app-question>
+    <app-new-question [group]='q'></app-new-question>
 </div>
 <button (click)="addQuestion()">Dodaj pitanje</button>
 <div id="newquestionprompt" #newquestionprompt style="display:none">
