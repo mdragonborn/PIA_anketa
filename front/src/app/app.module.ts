@@ -18,6 +18,7 @@ import { NewtestComponent } from './newtest/newtest.component';
 import { QuestionComponent } from './question/question.component';
 import { TestsService } from './tests.service';
 import { TestDetailsComponent } from './test-details/test-details.component';
+import { TestingComponent } from './testing/testing.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TestDetailsComponent } from './test-details/test-details.component';
     NewtestComponent,
     QuestionComponent,
     TestDetailsComponent,
+    TestingComponent,
   ],
   imports: [
     BrowserModule,

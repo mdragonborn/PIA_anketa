@@ -6,6 +6,8 @@ var schemaResponses = new Schema({
     testId: {type: Number, required: true},
     username: {type: String, required: true},
     answers: {type: Array},
+    beginning: {type: Date},
+    finished: {type: Boolean},
     score: {type: Number}    
 })
 

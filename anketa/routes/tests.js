@@ -36,12 +36,46 @@ router.get('/created', isValidUser, function(req, res, next) {
   Tests.find({creatorUsername:req.user.username}, (err, docs) => {
     var testMap = [];
 
-    docs.forEach(function(test, i) {
+    docs.forEach((test, i) => {
       testMap.push(test);
     });
     res.send(200, testMap);
   })
 });
+
+router.get('/available', isValidUser, function(req, res, next) {
+  Tests.find({}, (err, testDocs) => {
+    Responses.find({username: req.user.username}, (err, responseDocs) => {
+      let unavailable = new Set();
+      responseDocs.forEach((res, i)=>{
+        unavailable.add(res.testId);
+      })
+
+      let testMap = [];
+      let testAvailable = []
+      testDocs.forEach((test,i) => {
+        testMap[i] = { test, available: !unavailable.has(test.id)};
+        console.log(testMap[i]);
+      })
+
+      res.send(200, testMap);
+
+    })
+  })
+});
+
+router.post('/get', isValidUser, function(req, res, next) {
+  console.log(req.body)
+  Tests.find({id: req.body.id}, (err, docs) => {
+    console.log(docs);
+    if(docs.length===0 || err) {
+      res.send(404);
+    }
+    else{
+      res.send(200, docs[0]);
+    }
+  })
+})
 
 module.exports = router;
 

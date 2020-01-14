@@ -1,1 +1,29 @@
-<p>ispitanikhome works!</p>
+<h3>Dostupni testovi i ankete</h3>
+<span *ngIf="loading; else loaded">Loading...</span>
+<ng-template #loaded>
+<table>
+    <tr>
+        <th>Ime</th>
+        <th>Info</th>
+        <th>Tip</th>
+        <th>Pocetak</th>
+        <th>Kraj</th>
+        <th>Trajanje (min)</th>
+        <th>Broj pitanja</th>
+        <th>Zapocni</th>
+    </tr>
+    <tr *ngFor="let t of tests">
+        <td>{{t.test.name}}</td>
+        <td>{{t.test.info}}</td>
+        <td>{{type(t.test.type)}}</td>
+        <td>{{t.test.begin.toLocaleString()}}</td>
+        <td>{{t.test.end.toLocaleString()}}</td>
+        <td>{{t.test.durationMin}}</td>
+        <td>{{questionCount(t.test)}}</td>
+        <td>
+            <span *ngIf="available(t); else unavail"><button (click)="start(t)">Zapocni</button></span>
+            <ng-template>Test nije dostupan.</ng-template>
+        </td>
+    </tr>
+</table>
+</ng-template>

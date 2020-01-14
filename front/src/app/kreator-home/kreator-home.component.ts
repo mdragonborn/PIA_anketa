@@ -10,6 +10,8 @@ import { TestsService } from '../tests.service';
 })
 export class KreatorHomeComponent implements OnInit {
   myTests: Array<any>;
+  loading = true;
+
   constructor(private _router: Router, private _user: UserService,
     private _tests: TestsService) {
     this._user.checkLogin();
@@ -23,6 +25,7 @@ export class KreatorHomeComponent implements OnInit {
           t['begin'] = new Date(t['begin']).toLocaleString();
           t['end'] = new Date(t['end']).toLocaleString();
         }
+        this.loading = false;
       }
     )
    }

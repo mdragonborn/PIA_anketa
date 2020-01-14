@@ -1,5 +1,8 @@
-<a routerLink='new'><button>New test</button></a>
-
+<div class="head-button">
+    <h3>Moji testovi i ankete</h3> <a routerLink='new'><button>New test</button></a>
+</div>
+<span *ngIf="loading; else loaded">Loading...</span>
+<ng-template #loaded>
 <table>
     <tr>
         <th>Ime</th>
@@ -24,3 +27,5 @@
 </table>
 
 <app-ispitanik-home></app-ispitanik-home>
+
+</ng-template>

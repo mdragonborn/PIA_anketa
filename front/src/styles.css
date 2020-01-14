@@ -60,3 +60,16 @@ td, th {
     padding: 0 5px;
     border: 1px darkgrey solid;
 }
+
+.head-button {
+    margin: 10px 0;
+    width: 100%
+}
+
+.head-button h3 {
+    display: inline;
+}
+
+.head-button a {
+    float: right;
+}

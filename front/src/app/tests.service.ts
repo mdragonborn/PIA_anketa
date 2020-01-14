@@ -22,11 +22,27 @@ export class TestsService {
       observe:'body',
       withCredentials:true,
       headers:new HttpHeaders().append('Content-Type', 'application/json')
-    })
+    });
+  }
+
+  getAvailable() {
+    return this._http.get("http://127.0.0.1:3000/tests/available",{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
   }
 
   setSaved(test) {
     this.saved=test;
+  }
+
+  getTestById(id) {
+    return this._http.post("http://127.0.0.1:3000/tests/get", {id},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
   }
 
   getSaved(){
