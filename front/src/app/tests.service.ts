@@ -57,6 +57,14 @@ export class TestsService {
     });
   }
 
+  saveResponse(response) {
+    return this._http.post("http://127.0.0.1:3000/tests/saveresponse", {response},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
   setSaved(test) {
     this.saved=test;
   }

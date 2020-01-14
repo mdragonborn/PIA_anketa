@@ -10,7 +10,7 @@ import { TestsService } from '../tests.service';
 export class TestingComponent implements OnInit {
 
   testId: Number;
-  testForm: any;
+  testInfo: any;
   response: any;
   started = false;
   errorMsgStart: string;
@@ -24,13 +24,13 @@ export class TestingComponent implements OnInit {
       this.testId = +params['id'];
       let temp = this._tests.getSaved();
       if(temp && temp['id']===this.testId){
-        this.testForm = temp;
+        this.testInfo = temp;
         this.getResponse();
       }
       else {
         this._tests.getTestById(this.testId).subscribe(data => {
           console.log(data);
-          this.testForm = data;
+          this.testInfo = data;
           this.getResponse();
         },
         err => {
@@ -52,21 +52,22 @@ export class TestingComponent implements OnInit {
   }
 
   type() {
-    if(this.testForm.type==='A') return 'Anketa'
+    if(this.testInfo.type==='A') return 'Anketa'
     else return 'Test'
   }
 
   typePrompt() {
-    if(this.testForm.type==='A') return 'ankete'
+    if(this.testInfo.type==='A') return 'ankete'
     else return 'testa'
   }
 
   startTest() {
-    if(new Date(this.testForm.end)<=new Date()) {
+    if(new Date(this.testInfo.end)<=new Date()) {
       this.errorMsgStart = "Cannot start test due to time constraints."
     }
     this._tests.startTest(this.response._id).subscribe(
       data=> {
+        console.log(data);
         this.response = data;
         this.started = true;
       },
@@ -75,5 +76,15 @@ export class TestingComponent implements OnInit {
       }
     );
   }
+
+  save(){
+    console.log(this.response);
+    this._tests.saveResponse(this.response).subscribe(
+      data => console.log(data),
+      err => console.log(err)
+    );
+  }
+
+  submit(){}
 
 }

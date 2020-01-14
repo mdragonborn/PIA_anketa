@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var passport = require('passport');
+var moment = require('moment');
 
 var Tests = require('../models/test');
 var Responses = require('../models/responses');
@@ -70,7 +71,6 @@ router.get('/available', isValidUser, function(req, res, next) {
       testDocs.forEach((test,i) => {
         cleanAnswers(test);
         testMap[i] = { test, available: !unavailable.has(test.id)};
-        console.log(testMap[i]);
       })
 
       res.send(200, testMap);
@@ -80,9 +80,7 @@ router.get('/available', isValidUser, function(req, res, next) {
 });
 
 router.post('/get', isValidUser, function(req, res, next) {
-  console.log(req.body)
   Tests.find({id: req.body.id}, (err, docs) => {
-    console.log(docs);
     if(docs.length===0 || err) {
       res.send(404);
     }
@@ -109,6 +107,7 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
                 temp.push(null);
               }
               answers.push(temp);
+              temp = [];
             }
 
             let resp = new Responses({
@@ -132,10 +131,19 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
 
 router.post('/saveresponse', isValidUser, function(req, res, next) {
   // Validation??
-  Responses.collection.save(req.body.response, (err, doc) =>{
-  console.log(err)
-  console.log(doc)
-  res.send(200)})
+  console.log(req.body)
+  try{
+  Responses.findOneAndUpdate({_id:req.body.response._id}, 
+    {$set:{answers: req.body.response.answers, finished: req.body.response.finished }}, {'new':true, 
+    useFindAndModify: false,
+    upsert: true}, 
+    (err, result) => {
+      if(err) res.send(400,{});
+      res.send(200, {});
+})
+  }catch(e) {
+    console.log(e)
+  }
 })
 
 router.post('/start', isValidUser, function(req, res, next) {
@@ -145,10 +153,10 @@ router.post('/start', isValidUser, function(req, res, next) {
       if(req.user.username!==doc[0].username) res.send(401);
       else {
         let beginning = new Date();
-        let end = new Date(beginning.getTime() + doc[0].durationMin*60000);
+        let end = moment(beginning).add(doc[0].durationMin, 'm').toDate();
 
         Responses.findOneAndUpdate({_id:req.body._id}, 
-          {$set:{started:true, beginning, end}}, {'new':true, 
+          {$set:{started:true, beginning: beginning, end: end}}, {'new':true, 
           useFindAndModify: false,
           upsert: true}, 
           (err, result) => {
