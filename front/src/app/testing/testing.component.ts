@@ -44,7 +44,7 @@ export class TestingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.response.beginning){
+    if(this.response.beginning && !this.response.finished){
       if(window.confirm('Da li zelite da sacuvate vase odgovore?')){
         this._tests.saveResponse(this.response).subscribe();
       }

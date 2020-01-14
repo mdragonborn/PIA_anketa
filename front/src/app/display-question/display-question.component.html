@@ -3,10 +3,10 @@
 <div *ngFor="let ansField of question.answerFields; let i = index" [attr.data-index]="i">
     <div [ngSwitch]="question.type">
         <div *ngSwitchCase="1">
-            {{i+1}}. {{ansField.extraInfo}} <input type="number" [(ngModel)]="answers[i]">
+            {{i+1}}. {{ansField.extraInfo}}<br *ngIf="ansField.extraInfo"> <input type="number" [(ngModel)]="answers[i]">
         </div>
         <div *ngSwitchCase="2">
-            {{i+1}}. {{ansField.extraInfo}} <input type="string" [(ngModel)]="answers[i]">
+            {{i+1}}. {{ansField.extraInfo}}<br *ngIf="ansField.extraInfo"> <input type="string" [(ngModel)]="answers[i]">
         </div>
         <div *ngSwitchCase="3">
             <textarea type="text" [(ngModel)]="answers[i]"></textarea>

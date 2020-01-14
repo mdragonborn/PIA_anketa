@@ -40,7 +40,6 @@
     {{i+1}}. Pitanje <button (click)="removeQuestion(i)">Obrisi pitanje</button><br>
     <app-new-question [group]='q'></app-new-question>
 </div>
-<button (click)="addQuestion()">Dodaj pitanje</button>
 <div id="newquestionprompt" #newquestionprompt style="display:none">
     <p>Tip pitanja:</p>
     <select [(ngModel)]='selectedType'>
@@ -53,4 +52,7 @@
     <button (click)='confirmNewQuestion()'>Dodaj</button>
 </div>
 
+<div class="box filled" style="display: grid;">
+<button (click)="addQuestion()">Dodaj pitanje</button><br>
 <button (click)="submit()">Sacuvaj test</button>
+</div>
