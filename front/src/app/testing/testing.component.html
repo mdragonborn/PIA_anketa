@@ -6,7 +6,6 @@
 <div *ngIf="!started; else displayTest" class='centered'>
     Vreme izrade {{typePrompt()}}: {{testInfo.durationMin}} minuta <br><br>
     <button (click)="startTest()">Počni</button><br>
-    <span style="color: red;">{{this.errorMsgStart}}</span>
 </div>
 <ng-template #displayTest>
     <div class="progress-bar-timer"></div>
@@ -18,5 +17,6 @@
         <button (click)="submit()">Predaj</button>
     </div>
 </ng-template>
+<span style="color: red;">{{this.errorMsgStart}}</span>
 </div>
 <ng-template #notloaded>Loading...</ng-template>

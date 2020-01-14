@@ -21,7 +21,6 @@ export class KreatorHomeComponent implements OnInit {
         console.log(data)
         this.myTests = data as Array<any>;
         for(let t of this.myTests) {
-          console.log(t)
           t['begin'] = new Date(t['begin']).toLocaleString();
           t['end'] = new Date(t['end']).toLocaleString();
         }

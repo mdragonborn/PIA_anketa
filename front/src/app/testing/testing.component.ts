@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestsService } from '../tests.service';
 
@@ -7,8 +7,11 @@ import { TestsService } from '../tests.service';
   templateUrl: './testing.component.html',
   styleUrls: ['./testing.component.css']
 })
-export class TestingComponent implements OnInit {
-
+export class TestingComponent implements OnInit, OnDestroy {
+  @HostListener('window:beforeunload', ['$event'])
+  doSomething($event) {
+    $event.returnValue='Your data will be lost!';
+  }
   testId: Number;
   testInfo: any;
   response: any;
@@ -17,7 +20,7 @@ export class TestingComponent implements OnInit {
   loaded= false;
 
   constructor(private _route: ActivatedRoute, private _router: Router,
-    private _tests: TestsService) { }
+    private _tests: TestsService) {}
 
   ngOnInit() {
     this._route.params.subscribe(params => {
@@ -40,9 +43,17 @@ export class TestingComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if(this.response.beginning){
+      if(window.confirm('Da li zelite da sacuvate vase odgovore?')){
+        this._tests.saveResponse(this.response).subscribe();
+      }
+    }
+    console.log(this.response)
+  }
+
   getResponse() {
     this._tests.getResponse(this.testId).subscribe(data => {
-      console.log(data);
       this.response = data;
       if(this.response.beginning) this.started = true;
       this.loaded = true;
@@ -67,7 +78,6 @@ export class TestingComponent implements OnInit {
     }
     this._tests.startTest(this.response._id).subscribe(
       data=> {
-        console.log(data);
         this.response = data;
         this.started = true;
       },
@@ -80,11 +90,29 @@ export class TestingComponent implements OnInit {
   save(){
     console.log(this.response);
     this._tests.saveResponse(this.response).subscribe(
-      data => console.log(data),
-      err => console.log(err)
+      data => {
+        this.errorMsgStart = "Odgovori sačuvani na serveru."
+      },
+      err => {
+        this.errorMsgStart = err.message;
+      }
     );
   }
 
-  submit(){}
+  submit(){
+    console.log(this.response);
+    this.response.finished = true;
+    this._tests.saveResponse(this.response).subscribe(
+      data => {
+        console.log(data)
+        alert("Odgovori sacuvani na sereveru i test zavrsen.")
+        this._router.navigate(['/home']);
+      },
+      err => {
+        console.log(err)
+        this.errorMsgStart = err.message;
+      }
+    );
+  }
 
 }
