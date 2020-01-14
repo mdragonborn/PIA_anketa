@@ -13,6 +13,14 @@ function isValidUser(req,res,next){
   else return res.status(401).json({message:'Unauthorized Request'});
 }
 
+function cleanAnswers(test) {
+  for(let q of test.questions){
+    for(let a of q.answerFields){
+      a.answer = null;
+    }
+  }
+}
+
 router.get('/', function(req, res, next) {
   res.send('Tests route');
 });
@@ -54,6 +62,7 @@ router.get('/available', isValidUser, function(req, res, next) {
       let testMap = [];
       let testAvailable = []
       testDocs.forEach((test,i) => {
+        cleanAnswers(test);
         testMap[i] = { test, available: !unavailable.has(test.id)};
         console.log(testMap[i]);
       })
@@ -72,24 +81,11 @@ router.post('/get', isValidUser, function(req, res, next) {
       res.send(404);
     }
     else{
+      cleanAnswers(docs[0]);
       res.send(200, docs[0]);
     }
   })
 })
-
-function nullValue(type) {
-  switch(type) {
-    case 1: return NaN;
-    case 2: 
-    case 3: 
-      return "";
-    case 4: 
-    case 5:
-      return false;
-    default:
-      return null;
-  }
-}
 
 router.post('/getresponse', isValidUser, function(req, res, next) {
   Responses.find({username: req.user.username, testId: req.body.id}, 
