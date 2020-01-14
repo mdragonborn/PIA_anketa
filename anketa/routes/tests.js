@@ -130,9 +130,7 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
 })
 
 router.post('/saveresponse', isValidUser, function(req, res, next) {
-  // Validation??
-  console.log(req.body)
-  try{
+  // Validation? Compute score if finished?
   Responses.findOneAndUpdate({_id:req.body.response._id}, 
     {$set:{answers: req.body.response.answers, finished: req.body.response.finished }}, {'new':true, 
     useFindAndModify: false,
@@ -141,9 +139,6 @@ router.post('/saveresponse', isValidUser, function(req, res, next) {
       if(err) res.send(400,{});
       res.send(200, {});
 })
-  }catch(e) {
-    console.log(e)
-  }
 })
 
 router.post('/start', isValidUser, function(req, res, next) {
