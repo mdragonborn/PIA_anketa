@@ -8,7 +8,7 @@ import { ChangePwdComponent } from './change-pwd/change-pwd.component';
 import { AdminComponent } from './admin/admin.component';
 import { KreatorHomeComponent } from './kreator-home/kreator-home.component';
 import { IspitanikHomeComponent } from './ispitanik-home/ispitanik-home.component';
-import { NewtestComponent } from './newtest/newtest.component';
+import { NewTestComponent } from './new-test/new-test.component';
 import { TestDetailsComponent } from './test-details/test-details.component';
 import { TestingComponent } from './testing/testing.component';
 
@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'admin', component:AdminComponent},
   {path: 'kreator', component:KreatorHomeComponent},
   {path: 'isp', component: IspitanikHomeComponent},
-  {path: 'kreator/new', component: NewtestComponent},
+  {path: 'kreator/new', component: NewTestComponent},
   {path: 'kreator/details', component: TestDetailsComponent},
   {path: 'testing/:id', component: TestingComponent}
 ];

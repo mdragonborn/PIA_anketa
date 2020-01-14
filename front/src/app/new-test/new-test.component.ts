@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newtest',
-  templateUrl: './newtest.component.html',
-  styleUrls: ['./newtest.component.css']
+  templateUrl: './new-test.component.html',
+  styleUrls: ['./new-test.component.css']
 })
-export class NewtestComponent implements OnInit {
+export class NewTestComponent implements OnInit {
 
   baseForm : FormGroup = new FormGroup({
     name: new FormControl(null, Validators.required),

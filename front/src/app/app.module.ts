@@ -14,7 +14,7 @@ import { ChangePwdComponent } from './change-pwd/change-pwd.component';
 import { AdminComponent } from './admin/admin.component';
 import { IspitanikHomeComponent } from './ispitanik-home/ispitanik-home.component';
 import { KreatorHomeComponent } from './kreator-home/kreator-home.component';
-import { NewtestComponent } from './newtest/newtest.component';
+import { NewTestComponent } from './new-test/new-test.component';
 import { NewQuestionComponent } from './new-question/new-question.component';
 import { TestsService } from './tests.service';
 import { TestDetailsComponent } from './test-details/test-details.component';
@@ -32,7 +32,7 @@ import { DisplayQuestionComponent } from './display-question/display-question.co
     AdminComponent,
     IspitanikHomeComponent,
     KreatorHomeComponent,
-    NewtestComponent,
+    NewTestComponent,
     NewQuestionComponent,
     TestDetailsComponent,
     TestingComponent,
