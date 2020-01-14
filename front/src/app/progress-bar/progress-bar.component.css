@@ -1,0 +1,7 @@
+.progress-bar {
+    top: 50px;
+    left: 0;
+    background: white;
+    border-bottom: 2px darkgrey solid;
+    box-shadow: 2px 2px 1px 0px rgba(0,0,0,0.2);
+}

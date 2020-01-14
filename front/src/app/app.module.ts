@@ -20,6 +20,7 @@ import { TestsService } from './tests.service';
 import { TestDetailsComponent } from './test-details/test-details.component';
 import { TestingComponent } from './testing/testing.component';
 import { DisplayQuestionComponent } from './display-question/display-question.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { DisplayQuestionComponent } from './display-question/display-question.co
     TestDetailsComponent,
     TestingComponent,
     DisplayQuestionComponent,
+    ProgressBarComponent,
   ],
   imports: [
     BrowserModule,
