@@ -10,7 +10,8 @@ var schemaTest = new Schema({
     begin: {type: Date, required: true},
     end: {type: Date},
     durationMin: {type: Number},
-    questions: {type: Array, required: true},
+    questions: {type: Array, required: true}, 
+    // question, type, {extra info, answer}
 });
 
 module.exports = mongoose.model('Test',schemaTest);

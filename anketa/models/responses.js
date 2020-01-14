@@ -7,7 +7,9 @@ var schemaResponses = new Schema({
     username: {type: String, required: true},
     answers: {type: Array},
     beginning: {type: Date},
+    end: {type: Date},
     finished: {type: Boolean},
+    durationMin: {type: Number},
     score: {type: Number}    
 })
 

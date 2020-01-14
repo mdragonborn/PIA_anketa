@@ -1,1 +1,8 @@
-<p>testing works!</p>
+<div *ngIf="!started; else displayTest" class='centered'>
+    <h4>{{type()}}: {{testForm.name}}</h4>
+    <div>{{testForm.info}}</div>
+    Vreme izrade {{typePrompt()}}: {{testForm.durationMin}} minuta <br><br>
+    <button (click)="startTest()">Počni</button><br>
+    <span style="color: red;">{{this.errorMsgStart}}</span>
+</div>
+<ng-template #displayTest></ng-template>

@@ -24,6 +24,11 @@
     background-color: rgba(0,0,0,0.03);
 }
 
+.centered {
+    text-align: center;
+    margin: 15px;
+}
+
 .add-btn {
     border: 0;
     color: green;

@@ -33,8 +33,12 @@ export class TestsService {
     });
   }
 
-  setSaved(test) {
-    this.saved=test;
+  getResponse(testId) {
+    return this._http.post("http://127.0.0.1:3000/tests/getresponse", {id:testId},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
   }
 
   getTestById(id) {
@@ -43,6 +47,18 @@ export class TestsService {
       withCredentials:true,
       headers:new HttpHeaders().append('Content-Type', 'application/json')
     });
+  }
+  
+  startTest(_id) {
+    return this._http.post("http://127.0.0.1:3000/tests/start", {_id},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
+  setSaved(test) {
+    this.saved=test;
   }
 
   getSaved(){

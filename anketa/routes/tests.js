@@ -45,7 +45,7 @@ router.get('/created', isValidUser, function(req, res, next) {
 
 router.get('/available', isValidUser, function(req, res, next) {
   Tests.find({}, (err, testDocs) => {
-    Responses.find({username: req.user.username}, (err, responseDocs) => {
+    Responses.find({username: req.user.username, finished: true}, (err, responseDocs) => {
       let unavailable = new Set();
       responseDocs.forEach((res, i)=>{
         unavailable.add(res.testId);
@@ -77,5 +77,82 @@ router.post('/get', isValidUser, function(req, res, next) {
   })
 })
 
+function nullValue(type) {
+  switch(type) {
+    case 1: return NaN;
+    case 2: 
+    case 3: 
+      return "";
+    case 4: 
+    case 5:
+      return false;
+    default:
+      return null;
+  }
+}
+
+router.post('/getresponse', isValidUser, function(req, res, next) {
+  Responses.find({username: req.user.username, testId: req.body.id}, 
+    (err, data) => {
+      if(err){ res.send(404)}
+      else if(data.length===0) {
+        Tests.find({id:req.body.id}, (err, testData) => {
+          if(err || testData.length===0) {
+            res.send(405)
+          } else{
+            let answers = [];
+            for(let q of testData[0].questions) {
+              for(let a of q.answerFields) {
+                temp.push(null);
+              }
+              answers.push(temp);
+            }
+
+            let resp = new Responses({
+              testId: req.body.id,
+              username: req.user.username,
+              answers: answers,
+              beginning: null,
+              finished: false,
+              score: 0
+            });
+            resp.save();
+            res.send(200, resp);
+          }
+        })
+      }
+      else{
+        res.send(data[0]);
+      }
+    })
+})
+
+router.post('/saveresponse', isValidUser, function(req, res, next) {
+  // Validation??
+  Responses.collection.save(req.body.response, (err, doc) =>{
+  console.log(err)
+  console.log(doc)
+  res.send(200)})
+})
+
+router.post('/start', isValidUser, function(req, res, next) {
+  Responses.find({_id: req.body._id}, (err, doc) => {
+    if(err || doc.length===0) { res.send(404)}
+    else {
+      if(req.user.username!==doc[0].username) res.send(401);
+      else {
+        let beginning = new Date();
+        let end = new Date(beginning.getTime() + doc[0].durationMin*60000);
+
+        Responses.findOneAndUpdate({_id:req.body._id}, 
+          {$set:{started:true, beginning, end}}, {'new':true, 
+          useFindAndModify: false,
+          upsert: true}, 
+          (err, result) => {
+          res.send(200, result);
+      })
+    }
+  }})
+})
 module.exports = router;
 
