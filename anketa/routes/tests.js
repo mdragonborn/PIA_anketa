@@ -34,9 +34,15 @@ router.post('/new', isValidUser, function(req, res, next) {
       id: id.next
     };
     var test = new Tests(testData);
-  
-    test.save();
-    res.send(200);
+    test.validate((err)=>{
+      if(err){
+        res.send(400, {});
+      }
+      else {
+        test.save();
+        res.send(200, {});
+      }
+    })
   });
 })
 
@@ -97,6 +103,7 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
             res.send(405)
           } else{
             let answers = [];
+            let temp = [];
             for(let q of testData[0].questions) {
               for(let a of q.answerFields) {
                 temp.push(null);

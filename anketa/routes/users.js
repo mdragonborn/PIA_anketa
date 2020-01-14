@@ -25,7 +25,6 @@ router.post('/login', function(req, res, next){
 })
 
 router.get('/user',isValidUser,function(req,res,next){
-  console.log(req.user);
   return res.status(200).json(req.user);
 });
 

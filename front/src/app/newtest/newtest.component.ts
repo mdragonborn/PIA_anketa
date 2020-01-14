@@ -51,10 +51,10 @@ export class NewtestComponent implements OnInit {
       answer: new FormControl(null)
     });
     if(this.selectedType>3){
-      formGroup.get('extraInfo').setValidators(Validators.required);
+      formGroup.get('extraInfo').setValidators([Validators.required]);
     }
-    if(this.selectedType!==3) formGroup.get('extraInfo').setValidators(Validators.required);
-    if(this.selectedType===5) formGroup.get('answer').setValue(false);
+    if(this.selectedType!==3) formGroup.controls['answer'].setValidators([Validators.required]);
+    if(this.selectedType===5) formGroup.controls['answer'].setValue(false);
     let newGroup = new FormGroup({question: new FormControl(null, Validators.required), 
       type: new FormControl(this.selectedType, Validators.required),
       answerFields: new FormArray([formGroup])});
@@ -73,19 +73,29 @@ export class NewtestComponent implements OnInit {
   
   submit() {
 
-    if(!this.baseForm.valid) {
-      this.errorMsg = "Nedostaju obavezna polja."
-      return;
-    }
+    // if(!this.baseForm.valid) {
+    //   this.errorMsg = "Nedostaju obavezna polja."
+    //   return;
+    // }
 
     if(this.questions.length===0) {
       this.errorMsg = (this.baseForm.get('type').value==='A'?"Anketa":"Test")+" mora da ima barem jedno pitanje."
       return;
     }
+
     let invalid = false;
     this.errorMsg = "";
     let i = 0;
     for(let q of this.questions){
+      if(this.baseForm.get('type').value==='A'){
+        let size = (<FormArray>q.get('answerFields')).length;
+        for(let j=0; j<size; j++){
+          (<FormGroup>(<FormArray>q.get('answerFields')).at(j)).controls['answer'].setValidators([]);
+          (<FormGroup>(<FormArray>q.get('answerFields')).at(j)).controls['answer'].updateValueAndValidity();
+          console.log((<FormGroup>(<FormArray>q.get('answerFields')).at(j)).controls['answer'].errors);
+        }
+      }
+      console.log(q);
       if(!q.valid) {
         invalid = true;
         this.errorMsg += "Nedostaju obavezna polja u pitanju br. "+i+"\n";
@@ -107,7 +117,8 @@ export class NewtestComponent implements OnInit {
       },
       err => {
         console.log(err)
-        this.errorMsg = err.message;
+        if(err.status===400) this.errorMsg = "Nedostaju obavezna polja."
+        else this.errorMsg = err.message;
       }
     )
   }
