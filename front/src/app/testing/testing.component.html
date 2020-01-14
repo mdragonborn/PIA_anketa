@@ -1,3 +1,4 @@
+<div *ngIf="loaded; else notloaded">
 <div *ngIf="!started; else displayTest" class='centered'>
     <h4>{{type()}}: {{testForm.name}}</h4>
     <div>{{testForm.info}}</div>
@@ -5,4 +6,8 @@
     <button (click)="startTest()">Počni</button><br>
     <span style="color: red;">{{this.errorMsgStart}}</span>
 </div>
-<ng-template #displayTest></ng-template>
+<ng-template #displayTest>
+    test
+</ng-template>
+</div>
+<ng-template #notloaded>Loading...</ng-template>

@@ -14,6 +14,7 @@ export class TestingComponent implements OnInit {
   response: any;
   started = false;
   errorMsgStart: string;
+  loaded= false;
 
   constructor(private _route: ActivatedRoute, private _router: Router,
     private _tests: TestsService) { }
@@ -43,6 +44,10 @@ export class TestingComponent implements OnInit {
     this._tests.getResponse(this.testId).subscribe(data => {
       console.log(data);
       this.response = data;
+      if(this.response.beginning) this.started = true;
+      this.loaded = true;
+    }, err =>{
+      this.loaded = true;
     })
   }
 
