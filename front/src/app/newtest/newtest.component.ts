@@ -48,12 +48,13 @@ export class NewtestComponent implements OnInit {
     let formGroup = new FormGroup({
       type: new FormControl(this.questionTypes[this.selectedType]),
       extraInfo: new FormControl(null),
-      answer: new FormControl(null, Validators.required)
+      answer: new FormControl(null)
     });
     if(this.selectedType>3){
       formGroup.get('extraInfo').setValidators(Validators.required);
     }
-
+    if(this.selectedType!==3) formGroup.get('extraInfo').setValidators(Validators.required);
+    if(this.selectedType===5) formGroup.get('answer').setValue(false);
     let newGroup = new FormGroup({question: new FormControl(null, Validators.required), 
       type: new FormControl(this.selectedType, Validators.required),
       answerFields: new FormArray([formGroup])});
@@ -104,7 +105,10 @@ export class NewtestComponent implements OnInit {
         console.log(data);
         this._router.navigate(['/..']);
       },
-      err => console.log(err)
+      err => {
+        console.log(err)
+        this.errorMsg = err.message;
+      }
     )
   }
 

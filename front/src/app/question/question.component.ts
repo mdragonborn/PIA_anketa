@@ -37,17 +37,19 @@ export class QuestionComponent implements OnInit {
     let formGroup;
     if(this.questionType()<=3){
       formGroup = new FormGroup({
-        type: new FormControl(this.questionType[this.questionType()]),
+        type: new FormControl(this.questionTypes[this.questionType()]),
         extraInfo: new FormControl(null),
         answer: new FormControl(null, Validators.required)
       });
     } else {
       formGroup = new FormGroup({
-        type: new FormControl(this.questionType[this.questionType()]),
+        type: new FormControl(this.questionTypes[this.questionType()]),
         extraInfo: new FormControl(null, Validators.required),
         answer: new FormControl(false, Validators.required)
       });
     }
+
+    if(this.questionType()===4) this.rbAnswers.push(false);
 
     (<FormArray>this.group.get('answerFields')).push(formGroup);
   }

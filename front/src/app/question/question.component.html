@@ -18,7 +18,7 @@
             </div>
         </div>
         <div *ngSwitchCase="2">
-            <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+            <div formArrayName="answerFields" *ngFor="let field of answerFields(); let i = index; trackBy:trackByFn" [attr.data-index]="i">
                 <div formGroupName="{{i}}">
                     <span *ngIf='i==0'></span><span *ngIf='i==0'>Tekst potpitanja</span><span *ngIf='i==0'>Odgovor</span><span *ngIf='i==0'></span>
                     <input type="string" formControlName="extraInfo">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div *ngSwitchCase="4">
-            <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+            <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index; trackBy:trackByFn" [attr.data-index]="i">
                 <div formGroupName="{{i}}">
                     <input type='radio' [checked]="rbAnswers[i]" (change)="radioChecked(i)">
                     <input type='string' formControlName="extraInfo">
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div *ngSwitchCase="5">
-            <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index" [attr.data-index]="i">
+            <div formArrayName="answerFields"  *ngFor="let field of answerFields(); let i = index; trackBy:trackByFn" [attr.data-index]="i">
                 <div formGroupName="{{i}}">
                     <input type='checkbox' formControlName="answer" value="{{i}}">
                     <input type='string' formControlName="extraInfo">
