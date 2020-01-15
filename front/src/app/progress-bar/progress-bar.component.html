@@ -1,1 +1,5 @@
-<p class="toolbar progress-bar">progress-bar works!</p>
+<p class="toolbar progress-bar">
+    <progress max='{{total}}' value='{{completed}}'></progress>
+    ({{amountCompleted()}}/{{total}})
+  <countdown #countdown id="countdown" [config]="{leftTime: config, notify: [1]}" (event)="finish($event)">$!m!:$!s!</countdown>
+</p>

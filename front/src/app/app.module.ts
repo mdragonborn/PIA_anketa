@@ -21,6 +21,7 @@ import { TestDetailsComponent } from './test-details/test-details.component';
 import { TestingComponent } from './testing/testing.component';
 import { DisplayQuestionComponent } from './display-question/display-question.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import {CountdownModule} from 'ngx-countdown';
 
 @NgModule({
   declarations: [
@@ -45,11 +46,12 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CountdownModule,
   ],
   providers: [
     UserService,
-    TestsService
+    TestsService,
   ],
   bootstrap: [AppComponent]
 })

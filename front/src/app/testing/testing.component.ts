@@ -18,9 +18,12 @@ export class TestingComponent implements OnInit, OnDestroy {
   started = false;
   errorMsgStart: string;
   loaded= false;
+  endTime = new Date();
 
   constructor(private _route: ActivatedRoute, private _router: Router,
-    private _tests: TestsService) {}
+    private _tests: TestsService) {
+      this.finished = this.finished.bind(this);
+    }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
@@ -56,6 +59,9 @@ export class TestingComponent implements OnInit, OnDestroy {
     this._tests.getResponse(this.testId).subscribe(data => {
       this.response = data;
       if(this.response.beginning) this.started = true;
+      if(this.response.end) {
+        this.endTime = new Date(this.response.end);
+      }
       this.loaded = true;
     }, err =>{
       this.loaded = true;
@@ -79,6 +85,7 @@ export class TestingComponent implements OnInit, OnDestroy {
     this._tests.startTest(this.response._id).subscribe(
       data=> {
         this.response = data;
+        this.endTime = new Date(this.response.end);
         this.started = true;
       },
       err => {
@@ -113,6 +120,14 @@ export class TestingComponent implements OnInit, OnDestroy {
         this.errorMsgStart = err.message;
       }
     );
+  }
+
+  finished() {
+    if(!this.response.finished){
+      this.submit();
+    } else {
+      this._router.navigate(['/home']);
+    }
   }
 
 }

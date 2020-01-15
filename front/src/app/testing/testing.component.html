@@ -8,7 +8,7 @@
     <button (click)="startTest()">Počni</button><br>
 </div>
 <ng-template #displayTest>
-    <app-progress-bar [endTime]="response.end" [answers]="answers"></app-progress-bar>
+    <app-progress-bar [endTime]="endTime" [answers]="response.answers" [finishedCallback]='finished'></app-progress-bar>
     <div *ngFor="let question of testInfo.questions; let i = index" [attr.data-index]="i">
         <app-display-question [question]='question' [answers]='response.answers[i]' [index]="i+1"></app-display-question>
     </div>
