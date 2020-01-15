@@ -116,6 +116,7 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
               answers: answers,
               beginning: null,
               finished: false,
+              durationMin: testData[0].durationMin,
               score: 0
             });
             resp.save();
