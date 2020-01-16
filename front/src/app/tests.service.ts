@@ -72,4 +72,20 @@ export class TestsService {
   getSaved(){
     return this.saved;
   }
+
+  getReportAndResponses(testId) {
+    return this._http.post("http://127.0.0.1:3000/tests/report", {testId},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
+  fullResponse(testId, username){
+    return this._http.post("http://127.0.0.1:3000/tests/fullResponse", {testId, username},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
 }

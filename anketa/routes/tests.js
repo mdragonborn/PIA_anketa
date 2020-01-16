@@ -151,5 +151,38 @@ router.post('/start', util.isValidUser, function(req, res, next) {
     }
   }})
 })
+
+router.post('/report', util.isValidUser, function(req, res, next) {
+  Tests.find({id: req.body.testId}, (err0, test) => {
+    if(err0 || test.length===0) res.send(400, {});
+    else if(test[0].creatorUsername!==req.user.username) res.send(401, {});
+    else {
+      Reports.find({testId: req.body.testId}, (err, report) => {
+          // check creator id and body user id
+          Responses.find({testId: req.body.testId, finished: true}, (err2, responses) => {
+            if(err || err2 || report.length===0) {
+              res.send(400, {});
+            } else {
+              let baseInfo = responses.map(r => {return {username: r.username, endTime: r.endTime, score: r.score}});
+              res.send(200, {test: test[0], report: report[0], responsesInfo: baseInfo});
+            }
+          })
+        })
+      }
+    })
+})
+
+router.post('/fullResponse', util.isValidUser, function(req, res, next) {
+
+  Responses.findOne({testId: req.body.testId, username: req.body.username}, (err, res) => {
+    if(err || res.length===0) {
+      res.send(400, {})
+    } else{
+      res.send(200, res[0]);
+    }
+  })
+
+})
+
 module.exports = router;
 

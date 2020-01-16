@@ -42,7 +42,7 @@ export class KreatorHomeComponent implements OnInit {
 
   details(test) {
     this._tests.setSaved(test);
-    this._router.navigate(['kreator/details']);
+    this._router.navigate(['kreator/details/'+test.id]);
   }
 
 }

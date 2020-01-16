@@ -24,7 +24,7 @@ const routes: Routes = [
   {path: 'kreator', component:KreatorHomeComponent},
   {path: 'isp', component: IspitanikHomeComponent},
   {path: 'kreator/new', component: NewTestComponent},
-  {path: 'kreator/details', component: TestDetailsComponent},
+  {path: 'kreator/details/:id', component: TestDetailsComponent},
   {path: 'testing/:id', component: TestingComponent}
 ];
 

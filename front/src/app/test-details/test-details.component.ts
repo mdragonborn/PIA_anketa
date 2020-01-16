@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TestsService } from '../tests.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-test-details',
@@ -8,12 +9,20 @@ import { TestsService } from '../tests.service';
 })
 export class TestDetailsComponent implements OnInit {
 
-  constructor(private _tests: TestsService) {
-    console.log(this._tests.getSaved());
+  testId: Number;
+  test = null;
+  constructor(private _tests: TestsService, private _route: ActivatedRoute) {
+    this.test = this._tests.getSaved();
     // TODO get answers and stats
    }
 
   ngOnInit() {
+    this._route.params.subscribe(params => {
+      this.testId = +params['id'];
+      this._tests.getReportAndResponses(this.testId).subscribe(
+        data => { console.log(data) },
+        err => {console.log(err)})
+    });
   }
 
 }
