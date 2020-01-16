@@ -17,7 +17,7 @@ export class NewTestComponent implements OnInit {
     info: new FormControl(null),
     begin: new FormControl(null, Validators.required),
     end: new FormControl(null, Validators.required),
-    durationMin: new FormControl(null),
+    durationMin: new FormControl(null, Validators.required),
   });
   questions : Array<FormGroup> = [];
   questionTypes = { 1: 'number', 2: 'string', 3: 'text', 4: 'radio', 5: 'checkbox'};
@@ -55,6 +55,7 @@ export class NewTestComponent implements OnInit {
     }
     if(this.selectedType!==3) answerFormGroup.controls['answer'].setValidators([Validators.required]);
     if(this.selectedType===5) answerFormGroup.controls['answer'].setValue(false);
+    if(this.selectedType===4) answerFormGroup.controls['answer'].setValue(true);
     let questionGroup = new FormGroup({question: new FormControl(null, Validators.required), 
       type: new FormControl(this.selectedType, Validators.required),
       weight: new FormControl(1),
