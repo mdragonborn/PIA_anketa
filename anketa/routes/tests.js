@@ -197,7 +197,7 @@ function saveResponse(req, res) {
     upsert: true}, 
     (err, result) => {
       if(err) res.send(400,{});
-      res.send(200, {});
+      res.send(200, { score: req.body.response.score });
     });
 }
 

@@ -114,7 +114,11 @@ export class TestingComponent implements OnInit, OnDestroy {
     this._tests.saveResponse(this.response).subscribe(
       data => {
         console.log(data)
-        alert("Odgovori sacuvani na sereveru i test zavrsen.")
+        let message = "Odgovori sacuvani na sereveru i test zavrsen.";
+        if(this.testInfo.type==='T'){
+          message += "\nRezultat testa " + data['score'] + "/" + this.testInfo.maxScore + " poena."
+        }
+        alert(message);
         this._router.navigate(['/home']);
       },
       err => {
