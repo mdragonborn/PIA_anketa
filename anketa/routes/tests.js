@@ -102,9 +102,7 @@ router.post('/getresponse', util.isValidUser, function(req, res, next) {
           if(err || testData.length===0) {
             res.send(405)
           } else{
-            let answers = testData[0].questions.map(q => {
-              new Array(q.answerFields.length).fill(null);
-            })
+            let answers = testData[0].questions.map(q => new Array(q.answerFields.length).fill(null))
 
             let resp = new Responses({
               testId: req.body.id,
@@ -125,17 +123,6 @@ router.post('/getresponse', util.isValidUser, function(req, res, next) {
       }
     })
 })
-
-function saveResponse(req, res) {
-  Responses.findOneAndUpdate({_id:req.body.response._id}, 
-    {$set:{answers: req.body.response.answers, finished: req.body.response.finished, score: req.body.response.score }}, {'new':true, 
-    useFindAndModify: false,
-    upsert: true}, 
-    (err, result) => {
-      if(err) res.send(400,{});
-      res.send(200, { score: req.body.response.score });
-    });
-}
 
 router.post('/saveresponse', util.isValidUser, function(req, res, next) {
   // Validation? Compute score if finished?

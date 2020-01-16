@@ -3,11 +3,13 @@
     <label>Tekst pitanja</label><br>
     <input formControlName="question" type="string" class="form-control"
     id="text" placeholder="Pitanje"> <br><br>
-    <div *ngIf="questionType()!==3">
-        Broj poena <input type="number" formControlName="weight"><br>
-    </div>
-    <div *ngIf="questionType()===1 || questionType()===2">
-            <input type='checkbox' formControlName="ordered"> Redosled bitan<br>
+    <div *ngIf="test()">
+        <div *ngIf="questionType()!==3">
+            Broj poena <input type="number" formControlName="weight"><br>
+        </div>
+        <div *ngIf="questionType()===1 || questionType()===2">
+                <input type='checkbox' formControlName="ordered"> Redosled bitan<br>
+        </div>
     </div>
     <label>Odgovori</label> <button (click)="add()" class="add-btn" *ngIf="questionType()!==3">+</button><br>
     <div [ngSwitch]="questionType()">

@@ -76,10 +76,10 @@ export class NewTestComponent implements OnInit {
   
   submit() {
 
-    // if(!this.baseForm.valid) {
-    //   this.errorMsg = "Nedostaju obavezna polja."
-    //   return;
-    // }
+    if(!this.baseForm.valid) {
+      this.errorMsg = "Nedostaju obavezna polja."
+      return;
+    }
 
     if(this.questions.length===0) {
       this.errorMsg = (this.baseForm.get('type').value==='A'?"Anketa":"Test")+" mora da ima barem jedno pitanje."
@@ -113,7 +113,7 @@ export class NewTestComponent implements OnInit {
     this._test.newTest(this.baseForm.value).subscribe(
       data => {
         console.log(data);
-        this._router.navigate(['/..']);
+        this._router.navigate(['/kreator']);
       },
       err => {
         console.log(err)

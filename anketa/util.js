@@ -1,9 +1,6 @@
-var Tests = require('../models/test');
-var Responses = require('../models/responses');
-var Questions = require('../models/question');
-var Counter = require('../models/counter');
-var Reports = require('../models/report');
-var express = require('express');
+var Tests = require('./models/test');
+var User = require('./models/user');
+var Responses = require('./models/responses');
 
 function isValidUser(req,res,next){
     if(req.isAuthenticated()) next();
@@ -44,6 +41,10 @@ async function addToDB(req, res) {
   
   function gradeTest(req, res, callback) {
     Tests.find({id: req.body.response.testId}, (err, test) => {
+        if(err) {
+            req.status(400);
+            return;
+        }
       if(test[0].type==='T') {
         let i=0;
         let totalScore = 0;
@@ -113,12 +114,23 @@ async function addToDB(req, res) {
     testData.maxScore = max;
   }
 
+  function saveResponse(req, res) {
+    Responses.findOneAndUpdate({_id:req.body.response._id}, 
+      {$set:{answers: req.body.response.answers, finished: req.body.response.finished, score: req.body.response.score }}, {'new':true, 
+      useFindAndModify: false,
+      upsert: true}, 
+      (err, result) => {
+        if(err) res.send(400,{});
+        res.send(200, { score: req.body.response.score });
+      });
+  }
+
   module.exports = {
       isValidUser,
       cleanAnswers,
       gradeTest, 
-      insertToReport,
       genReportQuestions,
       processQuestions,
-      addToDB
+      addToDB,
+      saveResponse,
   }

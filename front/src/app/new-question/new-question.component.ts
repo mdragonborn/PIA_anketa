@@ -12,13 +12,17 @@ export class NewQuestionComponent implements OnInit {
   @Input() group: FormGroup;
   rbAnswers = [];
   questionTypes = { 1: 'number', 2: 'string', 3: 'text', 4: 'radio', 5: 'checkbox'};
-
+  @Input() testType: string;
   constructor() {}
 
   ngOnInit() {
     if(this.questionType()===4){
       this.rbAnswers.push(true);
     }
+  }
+
+  test() {
+    return this.testType==='T';
   }
 
   trackByFn(index, item) {

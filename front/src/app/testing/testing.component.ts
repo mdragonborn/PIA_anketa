@@ -54,7 +54,6 @@ export class TestingComponent implements OnInit, OnDestroy {
         this._tests.saveResponse(this.response).subscribe();
       }
     }
-    console.log(this.response)
   }
 
   getResponse() {
@@ -103,6 +102,7 @@ export class TestingComponent implements OnInit, OnDestroy {
         this.errorMsgStart = "Odgovori sačuvani na serveru."
       },
       err => {
+        console.log(err);
         this.errorMsgStart = err.message;
       }
     );
