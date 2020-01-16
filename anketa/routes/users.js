@@ -3,14 +3,14 @@ var router = express.Router();
 var User = require('../models/user');
 var passport = require('passport');
 
+var util = require('../util');
+
 router.get('/', function(req, res, next) {
   res.send('User route');
 });
 
-
-
 router.post('/register', function(req, res, next) {
-  addToDB(req, res);
+  util.addToDB(req, res);
 });
 
 router.post('/login', function(req, res, next){
@@ -24,21 +24,16 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 })
 
-router.get('/user',isValidUser,function(req,res,next){
+router.get('/user',util.isValidUser,function(req,res,next){
   return res.status(200).json(req.user);
 });
 
-router.get('/logout',isValidUser, function(req,res,next){
+router.get('/logout',util.isValidUser, function(req,res,next){
   req.logout();
   return res.status(200).json({message:'Logout Success'});
 })
 
-function isValidUser(req,res,next){
-  if(req.isAuthenticated()) next();
-  else return res.status(401).json({message:'Unauthorized Request'});
-}
-
-router.post('/change', isValidUser, function(req, res, next){
+router.post('/change', util.isValidUser, function(req, res, next){
   console.log("username ", req.user.username);
   let ret = 304;
   User.findOne({username:req.user.username}, function(err, doc){
@@ -57,7 +52,7 @@ router.post('/change', isValidUser, function(req, res, next){
   });
 })
 
-router.get('/requests', isValidUser, function(req, res, next){
+router.get('/requests', util.isValidUser, function(req, res, next){
   User.find({odobren:false}, function(err, docs){
     console.log(docs);
     var userMap = [];
@@ -69,7 +64,7 @@ router.get('/requests', isValidUser, function(req, res, next){
   })
 });
 
-router.get('/confirm/:username', isValidUser, function(req, res, next){
+router.get('/confirm/:username', util.isValidUser, function(req, res, next){
   if(req.user['kategorija']!=='A')   return res.status(401);
   User.findOne({username:req.params.username}, function(err, doc){
     if(err){
@@ -84,30 +79,5 @@ router.get('/confirm/:username', isValidUser, function(req, res, next){
   });
   console.log(req.params.username);
 });
-
-async function addToDB(req, res) {
-  var user = new User({
-    email:req.body.email,
-    username:req.body.username,
-    ime: req.body.ime,
-    prezime: req.body.prezime,
-    jmbg:req.body.jmbg,
-    datum_rodjenja: req.body.birthdate,
-    mesto_rodjenja: req.body.place,
-    phone: req.body.phone,
-    password:User.hashPassword(req.body.password),
-    kategorija:"I",
-    odobren: false,
-    creation_dt: Date.now()
-  });
-
-  try{
-    doc = await user.save();
-    return  res.status(201).json(doc);
-  }
-  catch(err) {
-    return res.status(501).json(err);
-  }
-}
 
 module.exports = router;

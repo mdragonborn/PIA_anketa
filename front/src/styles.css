@@ -42,7 +42,7 @@
 }
 
 .question-input-grid {
-    width: 300px;
+    width: 320px;
     display: grid;
     grid-template-columns: 1fr 5fr 5fr 1fr;
 }
