@@ -8,6 +8,7 @@ var Tests = require('../models/test');
 var Responses = require('../models/responses');
 var Questions = require('../models/question');
 var Counter = require('../models/counter');
+var Reports = require('../models/report');
 
 function isValidUser(req,res,next){
   if(req.isAuthenticated()) next();
@@ -63,6 +64,22 @@ function grade(req, res, callback) {
   })
 }
 
+function genReportQuestions(testQuestions) {
+  let questions = testQuestions.map(question => {
+    return {
+      question: question.question,
+      type: question.type,
+      answerFields: question.answerFields.map(field => {
+        return {
+          extraInfo: field.extraInfo,
+          answers: question.type>3?[{occurrences: 0}]:[]
+        }
+      })
+    }
+  });
+  return questions;
+}
+
 router.get('/', function(req, res, next) {
   res.send('Tests route');
 });
@@ -85,18 +102,28 @@ router.post('/new', isValidUser, function(req, res, next) {
     var testData = {
       ...req.body,
       creatorUsername: creator,
+      maxScore: 0,
       id: id.next
     };
     if(testData.type==='T'){
       processQuestions(testData)
     }
     var test = new Tests(testData);
+    var report = new Reports({
+      testId: testData.id,
+      type: testData.type,
+      maxScore: testData.maxScore,
+      average: 0,
+      scores: new Array(10).fill(0),
+      questions: genReportQuestions(testData.questions)
+    })
     test.validate((err)=>{
       if(err){
         res.send(400, {});
       }
       else {
         test.save();
+        report.save();
         res.send(200, {});
       }
     })
