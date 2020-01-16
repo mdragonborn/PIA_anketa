@@ -43,7 +43,6 @@ export class ProgressBarComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     this.cd.detectChanges();
-
   }
   
 

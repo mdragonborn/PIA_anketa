@@ -25,6 +25,7 @@
         <td><button (click)="details(t)">Detalji testa</button></td>
     </tr>
 </table>
+<span *ngIf="myTests.length===0" class='centered'>Nemate kreirane testove.</span>
 
 <app-ispitanik-home></app-ispitanik-home>
 

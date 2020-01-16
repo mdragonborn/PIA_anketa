@@ -10,6 +10,7 @@ var schemaTest = new Schema({
     begin: {type: Date, required: true},
     end: {type: Date},
     durationMin: {type: Number},
+    maxScore: {type: Number},
     questions: {type: Array, required: true}, 
     // question, type, {extra info, answer}
 });

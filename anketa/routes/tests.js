@@ -22,9 +22,64 @@ function cleanAnswers(test) {
   }
 }
 
+function grade(req, res, callback) {
+  Tests.find({id: req.body.response.testId}, (err, test) => {
+    if(test[0].type==='T') {
+      let i=0;
+      let totalScore = 0;
+      for(let question of test[0].questions) {
+        let k = 0;
+        let score = 0;
+        if(question.type===1 || question.type===2 || question.type===5) {
+          if(!question.ordered && question.type!==5) {
+            req.body.response.answers[i].sort();
+          }
+          if(question.type===2) 
+            req.body.response.answers[i] = req.body.response.answers[i].map(a => {return a!==null?a.toLowerCase():a})
+          for(let k=0, j=0; k<question.answerFields.length && j<question.answerFields.length; k++, j++) {
+            while(!question.ordered
+              && question.answerFields[k].answer>req.body.response.answers[i][j]
+              && j<question.answerFields.length-1) j++;
+            if(question.answerFields[k].answer===req.body.response.answers[i][j])
+              score += 1.0/question.answerFields.length;
+              console.log(question.answerFields, req.body.response.answers, i, k)
+          }
+        }
+
+        if(question.type===4) {
+          for(let k=0; k<question.answerFields.length; k++) {
+            if(question.answerFields[k].answer &&req.body.response.answers[i][k]) {
+              score = 1;
+              break;
+            }
+          }
+        }
+        totalScore += score*question.weight;
+        console.log(i, totalScore)
+        i++;
+      }
+
+      req.body.response.score = totalScore;
+    }
+    callback(req, res);
+  })
+}
+
 router.get('/', function(req, res, next) {
   res.send('Tests route');
 });
+
+function processQuestions(testData) {
+  let max = 0;
+  for(let question of testData.questions) {
+    max += question.weight;
+    if(question.type<3 && !question.ordered) {
+      question.answerFields.sort((a,b) => (a.answer>b.answer)?1:-1)
+    }
+  }
+
+  testData.maxScore = max;
+}
 
 router.post('/new', isValidUser, function(req, res, next) {
   var creator = req.user.username;
@@ -34,6 +89,9 @@ router.post('/new', isValidUser, function(req, res, next) {
       creatorUsername: creator,
       id: id.next
     };
+    if(testData.type==='T'){
+      processQuestions(testData)
+    }
     var test = new Tests(testData);
     test.validate((err)=>{
       if(err){
@@ -62,15 +120,17 @@ router.get('/available', isValidUser, function(req, res, next) {
   Tests.find({}, (err, testDocs) => {
     Responses.find({username: req.user.username, finished: true}, (err, responseDocs) => {
       let unavailable = new Set();
+      let scores = new Map();
       responseDocs.forEach((res, i)=>{
         unavailable.add(res.testId);
+        scores.set(res.testId, res.score);
       })
 
       let testMap = [];
       let testAvailable = []
       testDocs.forEach((test,i) => {
         cleanAnswers(test);
-        testMap[i] = { test, available: !unavailable.has(test.id)};
+        testMap[i] = { test, available: !unavailable.has(test.id), score: scores.get(test.id)};
       })
 
       res.send(200, testMap);
@@ -130,16 +190,23 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
     })
 })
 
-router.post('/saveresponse', isValidUser, function(req, res, next) {
-  // Validation? Compute score if finished?
+function saveResponse(req, res) {
   Responses.findOneAndUpdate({_id:req.body.response._id}, 
-    {$set:{answers: req.body.response.answers, finished: req.body.response.finished }}, {'new':true, 
+    {$set:{answers: req.body.response.answers, finished: req.body.response.finished, score: req.body.response.score }}, {'new':true, 
     useFindAndModify: false,
     upsert: true}, 
     (err, result) => {
       if(err) res.send(400,{});
       res.send(200, {});
-})
+    });
+}
+
+router.post('/saveresponse', isValidUser, function(req, res, next) {
+  // Validation? Compute score if finished?
+  if(req.body.response.finished) {
+    grade(req, res, saveResponse);
+  }
+  else saveResponse(req, res)
 })
 
 router.post('/start', isValidUser, function(req, res, next) {

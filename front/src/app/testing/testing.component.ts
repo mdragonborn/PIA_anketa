@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestsService } from '../tests.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-testing',
@@ -21,8 +22,9 @@ export class TestingComponent implements OnInit, OnDestroy {
   endTime = new Date();
 
   constructor(private _route: ActivatedRoute, private _router: Router,
-    private _tests: TestsService) {
+    private _tests: TestsService, private _user: UserService) {
       this.finished = this.finished.bind(this);
+      _user.checkLogin()
     }
 
   ngOnInit() {
@@ -47,7 +49,7 @@ export class TestingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.response.beginning && !this.response.finished){
+    if(this.response && this.response.beginning && !this.response.finished){
       if(window.confirm('Da li zelite da sacuvate vase odgovore?')){
         this._tests.saveResponse(this.response).subscribe();
       }

@@ -10,7 +10,7 @@
         <th>Kraj</th>
         <th>Trajanje (min)</th>
         <th>Broj pitanja</th>
-        <th>Zapocni</th>
+        <th></th>
     </tr>
     <tr *ngFor="let t of tests">
         <td>{{t.test.name}}</td>
@@ -22,8 +22,12 @@
         <td>{{questionCount(t.test)}}</td>
         <td>
             <span *ngIf="available(t); else unavail"><button (click)="start(t)">Zapocni</button></span>
-            <ng-template>Test nije dostupan.</ng-template>
+            <ng-template #unavail>
+                <span *ngIf="t.test.type==='T'; noscore">Osvojeni poeni: {{t.score}}/{{t.test.maxScore}}</span>
+                <ng-template #noscore>Test nije dostupan.</ng-template>
+            </ng-template>
         </td>
     </tr>
 </table>
+<span *ngIf="tests.length===0"  class='centered'>Nema dostupnih testova.</span>
 </ng-template>

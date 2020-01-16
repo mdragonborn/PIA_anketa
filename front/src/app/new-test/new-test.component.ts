@@ -45,20 +45,22 @@ export class NewTestComponent implements OnInit {
   ngOnChange() {}
 
   confirmNewQuestion() {
-    let formGroup = new FormGroup({
+    let answerFormGroup = new FormGroup({
       type: new FormControl(this.questionTypes[this.selectedType]),
       extraInfo: new FormControl(null),
-      answer: new FormControl(null)
+      answer: new FormControl(null),
     });
     if(this.selectedType>3){
-      formGroup.get('extraInfo').setValidators([Validators.required]);
+      answerFormGroup.get('extraInfo').setValidators([Validators.required]);
     }
-    if(this.selectedType!==3) formGroup.controls['answer'].setValidators([Validators.required]);
-    if(this.selectedType===5) formGroup.controls['answer'].setValue(false);
-    let newGroup = new FormGroup({question: new FormControl(null, Validators.required), 
+    if(this.selectedType!==3) answerFormGroup.controls['answer'].setValidators([Validators.required]);
+    if(this.selectedType===5) answerFormGroup.controls['answer'].setValue(false);
+    let questionGroup = new FormGroup({question: new FormControl(null, Validators.required), 
       type: new FormControl(this.selectedType, Validators.required),
-      answerFields: new FormArray([formGroup])});
-    this.questions.push(newGroup);
+      weight: new FormControl(1),
+      ordered: new FormControl(false),
+      answerFields: new FormArray([answerFormGroup])});
+    this.questions.push(questionGroup);
     this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:none');
     return false;
   }
