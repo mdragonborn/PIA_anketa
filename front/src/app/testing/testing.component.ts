@@ -37,7 +37,6 @@ export class TestingComponent implements OnInit, OnDestroy {
       }
       else {
         this._tests.getTestById(this.testId).subscribe(data => {
-          console.log(data);
           this.testInfo = data;
           this.getResponse();
         },

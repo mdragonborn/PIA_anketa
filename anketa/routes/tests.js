@@ -127,7 +127,7 @@ router.post('/getresponse', util.isValidUser, function(req, res, next) {
 router.post('/saveresponse', util.isValidUser, function(req, res, next) {
   // Validation? Compute score if finished?
   if(req.body.response.finished) {
-    util.gradeTest(req, res, saveResponse);
+    util.gradeTest(req, res, util.saveResponse);
   }
   else util.saveResponse(req, res)
 })

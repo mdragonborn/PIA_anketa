@@ -1,6 +1,7 @@
 var Tests = require('./models/test');
 var User = require('./models/user');
 var Responses = require('./models/responses');
+var Reports = require('./models/report');
 
 function isValidUser(req,res,next){
     if(req.isAuthenticated()) next();
@@ -63,7 +64,6 @@ async function addToDB(req, res) {
                 && j<question.answerFields.length-1) j++;
               if(question.answerFields[k].answer===req.body.response.answers[i][j])
                 score += 1.0/question.answerFields.length;
-                console.log(question.answerFields, req.body.response.answers, i, k)
             }
           }
   
@@ -76,13 +76,69 @@ async function addToDB(req, res) {
             }
           }
           totalScore += score*question.weight;
-          console.log(i, totalScore)
           i++;
         }
   
         req.body.response.score = totalScore;
       }
+      insertToReport(req, res, ()=> {
         callback(req, res);
+      });
+    })
+  }
+
+
+function insertToReport(req, res, callback) {
+    Reports.find({testId: req.body.response.testId}, (err, report) => {
+        if(err || !report.length) {
+            res.send(400, {});
+        }
+        else {
+            let i = 0;
+            report[0].responseCount++;
+            if(report[0].type==='T'){
+                report[0].average = (report[0].average*(report[0].responseCount-1))+req.body.response.score;
+                report[0].average /= report[0].responseCount;
+                report[0].scores[Math.floor((req.body.response.score/report[0].maxScore-0.01)*10)]++;
+            }
+            let answers = req.body.response.answers;
+            for(let question of report[0].questions) {
+                switch(question.type) {
+                case 1:
+                case 2:
+                    let k = 0;
+                    for(let field of question.answerFields) {
+                        let index = field.answers.findIndex(element => element.content===answers[i][k]);
+                        if(index!==-1){
+                            field.answers[index].occurrences++;
+                        }
+                        else {
+                            field.answers.push({content:answers[i][k], occurrences: 1});
+                        }
+                        k++;
+                    }
+                    break;
+                    case 4:
+                    case 5:
+                        for(let j in question.answerFields)
+                            if(answers[i][j])
+                                question.answerFields[j].answers[0].occurrences++;
+                    
+                    break;
+                }
+                i++;
+            }
+            Reports.findOneAndUpdate({testId: report[0].testId}, 
+                {$set:{
+                    scores: report[0].scores,
+                    questions: report[0].questions,
+                    average: report[0].average,
+                    responseCount: report[0].responseCount
+                 }}, {'new':true, useFindAndModify: false, upsert: true}, 
+                (err, result) => {
+                    callback(req, res);
+                });
+            }
     })
   }
 
