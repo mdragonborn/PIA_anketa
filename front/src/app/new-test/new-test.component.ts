@@ -107,10 +107,7 @@ export class NewTestComponent implements OnInit {
     if(invalid) return;
 
     let data = this.baseForm.value;
-    data['questions'] = []
-    for(let q of this.questions) {
-      data['questions'].push(q.value);
-    }
+    data['questions'] = this.questions.map(q => q.value);
 
     this._test.newTest(this.baseForm.value).subscribe(
       data => {

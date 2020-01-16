@@ -15,11 +15,9 @@ function isValidUser(req,res,next){
 }
 
 function cleanAnswers(test) {
-  for(let q of test.questions){
-    for(let a of q.answerFields){
-      a.answer = null;
-    }
-  }
+  test.questions.forEach(q => {
+    q.answerFields.forEach(a => a.answer=null);
+  })
 }
 
 function grade(req, res, callback) {
@@ -127,7 +125,6 @@ router.get('/available', isValidUser, function(req, res, next) {
       })
 
       let testMap = [];
-      let testAvailable = []
       testDocs.forEach((test,i) => {
         cleanAnswers(test);
         testMap[i] = { test, available: !unavailable.has(test.id), score: scores.get(test.id)};
@@ -160,15 +157,9 @@ router.post('/getresponse', isValidUser, function(req, res, next) {
           if(err || testData.length===0) {
             res.send(405)
           } else{
-            let answers = [];
-            let temp = [];
-            for(let q of testData[0].questions) {
-              for(let a of q.answerFields) {
-                temp.push(null);
-              }
-              answers.push(temp);
-              temp = [];
-            }
+            let answers = testData[0].questions.map(q => {
+              new Array(q.answerFields.length).fill(null);
+            })
 
             let resp = new Responses({
               testId: req.body.id,
