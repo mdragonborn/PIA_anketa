@@ -22,6 +22,10 @@ import { TestingComponent } from './testing/testing.component';
 import { DisplayQuestionComponent } from './display-question/display-question.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import {CountdownModule} from 'ngx-countdown';
+import { ScoreBarChartComponent } from './score-bar-chart/score-bar-chart.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts'
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -40,6 +44,7 @@ import {CountdownModule} from 'ngx-countdown';
     TestingComponent,
     DisplayQuestionComponent,
     ProgressBarComponent,
+    ScoreBarChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,8 @@ import {CountdownModule} from 'ngx-countdown';
     ReactiveFormsModule,
     HttpClientModule,
     CountdownModule,
+    NgxChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     UserService,

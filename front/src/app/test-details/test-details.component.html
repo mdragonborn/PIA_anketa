@@ -12,7 +12,17 @@
     </div>
     <ng-template #noresponse><h4>Nema odgovora na ovu anketu.</h4></ng-template>
 </div>
-<ng-template #testdiv class="test-grid">
+<ng-template #testdiv>
+    <div class="test-grid" *ngIf="loaded">
+    <div>
+        <h2>Test: {{test.name}}</h2>
+        <p>{{test.info}}</p>
+        <p>Pocetak testa: {{beginTime()}}</p>
+        <p>Kraj testa: {{endTime()}}</p>
+        <p>Trajanje: {{test.durationMin}}</p>
+        <p>Broj pitanja: {{test.questions.length}}</p><br>
+        <app-score-bar-chart [scoreData]="scoresData"></app-score-bar-chart>
+    </div>
     <div class="responses"  *ngIf="responsesLen(); else noresponse">
         <h3>Odgovori</h3>
         <div class="response-bar head">
@@ -25,6 +35,7 @@
             <span class="score">{{response.score}}/{{maxScore()}}</span>
             <button (click)="viewMore(response)" class="add-btn">+</button>
         </div>
+    </div>
     </div>
     <ng-template #noresponse><h4>Nema odgovora na ovaj test.</h4></ng-template>
 </ng-template>

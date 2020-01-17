@@ -19,3 +19,11 @@
     background: #1976d2;
     color: white;
 }
+.test-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.test-grid p {
+    margin: 0.3em;
+}
