@@ -1,1 +1,30 @@
-<p>test-details works!</p>
+<div *ngIf="anketa(); else testdiv">
+    <div class="responses" *ngIf="responsesLen(); else noresponse">
+        <h3>Odgovori</h3>
+        <div class="response-bar head">
+            <span class="user">Korisnicko ime</span>
+            <span>Ceo odgovor</span>
+        </div>
+        <div *ngFor='let response of responsesInfo' class="response-bar">
+            <span class="user">{{response.username}}</span>
+            <button (click)="viewMore(response)" class="add-btn">+</button>
+        </div>
+    </div>
+    <ng-template #noresponse><h4>Nema odgovora na ovu anketu.</h4></ng-template>
+</div>
+<ng-template #testdiv class="test-grid">
+    <div class="responses"  *ngIf="responsesLen(); else noresponse">
+        <h3>Odgovori</h3>
+        <div class="response-bar head">
+            <span class="user">Korisnicko ime</span>
+            <span class="score">Poeni</span>
+            <span>Ceo odgovor</span>
+        </div>
+        <div *ngFor='let response of responsesInfo' class="response-bar">
+            <span class="user">{{response.username}}</span>
+            <span class="score">{{response.score}}/{{maxScore()}}</span>
+            <button (click)="viewMore(response)" class="add-btn">+</button>
+        </div>
+    </div>
+    <ng-template #noresponse><h4>Nema odgovora na ovaj test.</h4></ng-template>
+</ng-template>

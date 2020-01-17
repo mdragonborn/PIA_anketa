@@ -11,18 +11,39 @@ export class TestDetailsComponent implements OnInit {
 
   testId: Number;
   test = null;
+  responsesInfo: any;
+  report: any;
   constructor(private _tests: TestsService, private _route: ActivatedRoute) {
     this.test = this._tests.getSaved();
-    // TODO get answers and stats
    }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
       this.testId = +params['id'];
       this._tests.getReportAndResponses(this.testId).subscribe(
-        data => { console.log(data) },
+        data => { 
+          this.responsesInfo = data['responsesInfo'];
+          this.report = data['report'];
+          if(!this.test) this.test = data['test'];
+          console.log(data) 
+        },
         err => {console.log(err)})
     });
   }
 
+  anketa(){
+    return this.test && this.test.type==='A'
+  }
+
+  maxScore(){
+    return this.test.maxScore
+  }
+
+  viewMore(response) {
+
+  }
+
+  responsesLen() {
+    return this.responsesInfo && this.responsesInfo.length!==0;
+  }
 }

@@ -1,0 +1,21 @@
+.response-bar {
+    background: #eeeeee;
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    padding: 3px;
+    margin: 3px;
+}
+
+.response-bar .user {
+    flex-grow: 2;
+}
+
+.response-bar .score {
+    flex-grow: 2;
+}
+
+.head {
+    background: #1976d2;
+    color: white;
+}
