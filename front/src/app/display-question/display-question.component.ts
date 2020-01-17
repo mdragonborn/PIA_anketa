@@ -13,11 +13,7 @@ export class DisplayQuestionComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log(this.question)
-    console.log(this.index)
-    console.log(this.answers)
-  }
+  ngOnInit() {}
 
   radioChecked(id){
     for(let i = 0; i <  this.answers.length; i++){
