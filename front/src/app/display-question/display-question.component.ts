@@ -8,8 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DisplayQuestionComponent implements OnInit {
 
   @Input() question: any;
-  @Input() answers: Array<any>;
+  @Input() answers: Array<any> = [];
   @Input() index: Number;
+  @Input() disabled: boolean = false;
+  @Input() classes: string = "";
 
   constructor() { }
 

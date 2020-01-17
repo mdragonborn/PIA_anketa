@@ -79,13 +79,16 @@ td, th {
     margin-top: 40px !important;
 }
 
+.wide {
+    width: 100%;
+}
+
 .box {
     margin: 10px;
     padding: 15px;
     border-radius: 7px;
     border: 2px #e4dfda solid;
     box-shadow: 2px 2px 1px 0px rgba(0,0,0,0.2);
-    width: 100%;
     position: relative;
     left: -25px;
 }

@@ -1,5 +1,5 @@
-<div *ngIf="loaded; else notloaded" style="width: 80%">
-    <div class="box filled center test-lower">
+<div *ngIf="loaded; else notloaded">
+    <div class="box filled center test-lower wide">
     <h4>{{type()}}: {{testInfo.name}}</h4>
     <div>{{testInfo.info}}</div>
     </div>
@@ -10,9 +10,9 @@
 <ng-template #displayTest>
     <app-progress-bar [endTime]="endTime" [answers]="response.answers" [finishedCallback]='finished'></app-progress-bar>
     <div *ngFor="let question of testInfo.questions; let i = index" [attr.data-index]="i">
-        <app-display-question [question]='question' [answers]='response.answers[i]' [index]="i+1"></app-display-question>
+        <app-display-question [question]='question' [answers]='response.answers[i]' [index]="i+1"  classes="wide"></app-display-question>
     </div>
-    <div class="box filled" style="display: grid">
+    <div class="box filled wide" style="display: grid">
         <button (click)="save()">Sacuvaj</button><br>
         <button (click)="submit()">Predaj</button>
     </div>
