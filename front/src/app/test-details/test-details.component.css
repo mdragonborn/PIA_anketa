@@ -27,3 +27,16 @@
 .test-grid p {
     margin: 0.3em;
 }
+
+a {
+    text-decoration: none;
+    style: bold;
+}
+
+a:link {
+    color: black;
+  }
+  
+  a:visited {
+    color: black;
+  }
