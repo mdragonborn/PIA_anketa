@@ -2,7 +2,7 @@
     top: 50px;
     left: 0;
     background: white;
-    border-bottom: 2px darkgrey solid;
+    border-bottom: 2px #e4dfda solid;
     box-shadow: 2px 2px 1px 0px rgba(0,0,0,0.2);
     text-align: center;
     padding: 7px;
@@ -16,28 +16,28 @@ progress[value] {
     appearance: none;  
     width: 250px;
     height: 20px;
-    background-color: #eee;
+    background-color: #e4dfda;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     border-radius: 2px;
   }
 
   progress[value]::-webkit-progress-bar {
-    background-color: #eee;
+    background-color: #e4dfda;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     border-radius: 2px;
   }
 
   progress[value]::-moz-progress-bar {
-    background-color: #eee;
+    background-color: #e4dfda;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
     border-radius: 2px;
   }
 
 
 
-  progress::-webkit-progress-value {background: #1976d2 !important; 	transition: width 0.7s ease-in-out;  }
-  progress::-moz-progress-value {background: #1976d2 !important;}
-  progress {color: #1976d2 !important;}
+  progress::-webkit-progress-value { border-radius: 2px; background: #48a9a6 !important; 	transition: width 0.7s ease-in-out;  }
+  progress::-moz-progress-value {border-radius: 2px; background: #48a9a6 !important;}
+  progress {border-radius: 2px; color: #48a9a6 !important;}
 
 #countdown {
     float: right;
