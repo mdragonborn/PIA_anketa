@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var schemaReport = new Schema({
     testId: {type: Number, required: true},
     type: {type: String, required: true},
+    ordered: {type: Boolean},
     maxScore: {type: Number},
     average: {type: Number},
     responseCount: {type: Number},

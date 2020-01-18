@@ -107,15 +107,29 @@ function insertToReport(req, res, callback) {
                 case 1:
                 case 2:
                     let k = 0;
-                    for(let field of question.answerFields) {
-                        let index = field.answers.findIndex(element => element.content===answers[i][k]);
+                    if(quertion.ordered){
+                      for(let field of question.answerFields) {
+                          let index = field.answers.findIndex(element => element.content===answers[i][k]);
+                          if(index!==-1){
+                              field.answers[index].occurrences++;
+                          }
+                          else {
+                              field.answers.push({content:answers[i][k], occurrences: 1});
+                          }
+                          k++;
+                      }
+                    }
+                    else {
+                      let field = question.answerFields[0];
+                      for(let answer of answers[i]){
+                        let index = field.answers.findIndex(element => element.content===answer);
                         if(index!==-1){
                             field.answers[index].occurrences++;
                         }
                         else {
-                            field.answers.push({content:answers[i][k], occurrences: 1});
+                            field.answers.push({content:answer, occurrences: 1});
                         }
-                        k++;
+                      }
                     }
                     break;
                     case 4:
@@ -147,6 +161,7 @@ function insertToReport(req, res, callback) {
       return {
         question: question.question,
         type: question.type,
+        ordered: question.ordered,
         answerFields: question.answerFields.map(field => {
           return {
             extraInfo: field.extraInfo,
