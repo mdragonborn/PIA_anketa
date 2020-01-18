@@ -1,5 +1,24 @@
 <a [routerLink]="['/kreator']">&lt; Nazad</a>
-<div *ngIf="anketa(); else testdiv">
+<div *ngIf="anketa(); else testdiv" class="test-grid">
+    <div class="anketa-charts">
+        <div>
+            <h2>Anketa: {{test.name}}</h2>
+            <p>{{test.info}}</p>
+            <p>Pocetak ankete: {{beginTime()}}</p>
+            <p>Kraj ankete: {{endTime()}}</p>
+            <p>Trajanje: {{test.durationMin}}</p>
+            <p>Broj pitanja: {{test.questions.length}}</p><br>
+<!-- Charts -->
+            <div *ngFor='let q of test.questions; let i = index' [attr.data-index]="i">
+                <app-display-question [question]='q' [index]="i+1" [disabled]='true'>
+                    <div *ngIf="q.type!==3">
+                        <app-question-stat-chart [question]='q' [reportQuestion]='report.questions[i]'></app-question-stat-chart>
+                    </div>
+                </app-display-question>
+
+            </div>
+        </div>
+    </div>
     <div class="responses" *ngIf="responsesLen(); else noresponse">
         <h3>Odgovori</h3>
         <div class="response-bar head">

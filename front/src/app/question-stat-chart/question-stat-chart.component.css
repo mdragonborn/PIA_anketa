@@ -1,0 +1,12 @@
+.advanced-pie .chart {
+    height: 100px;
+}
+
+.advanced-pie-legend-wrapper {
+    height: 200px;
+}
+
+.liftchart {
+    position: relative;
+    top: -10px;
+}

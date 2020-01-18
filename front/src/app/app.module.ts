@@ -26,6 +26,7 @@ import { ScoreBarChartComponent } from './score-bar-chart/score-bar-chart.compon
 import {NgxChartsModule} from '@swimlane/ngx-charts'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { QuestionStatChartComponent } from './question-stat-chart/question-stat-chart.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DisplayQuestionComponent,
     ProgressBarComponent,
     ScoreBarChartComponent,
+    QuestionStatChartComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,36 @@
+<div [ngSwitch]="question.type" style="min-height: 200px;" id="maindiv" #maindiv>
+    <div *ngSwitchCase="1">
+        <span *ngIf="question.ordered; else unordered">
+            <div *ngFor="let r of results; let i = index" [attr.data-index]="i">
+            {{i+1}}. {{question.answerFields[i].extraInfo}}<br>
+            <ngx-charts-bar-vertical
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="r"
+                [xAxis]="true"
+                [yAxis]="true"
+                ></ngx-charts-bar-vertical>
+            </div>
+        </span>
+        <ng-template #unordered></ng-template>
+    </div>
+    <div *ngSwitchCase="2"></div>
+    <div *ngSwitchCase="4">
+        <ngx-charts-advanced-pie-chart
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="results"
+            [label]='label'
+            class='liftchart'
+            ></ngx-charts-advanced-pie-chart>
+    </div>
+    <div *ngSwitchCase="5">
+        <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="results"
+            [xAxis]="true"
+            [yAxis]="true"
+            ></ngx-charts-bar-vertical>
+    </div>
+</div>
