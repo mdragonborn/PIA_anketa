@@ -10,6 +10,7 @@ export class ProgressBarComponent implements OnInit, AfterViewChecked {
   @Input() endTime: Date;
   @Input() answers: Array<any>
   @Input() finishedCallback: Function;
+  @Input() disabled: Boolean;
   config = 0;
   completed = 0;
   total = 0;
@@ -47,9 +48,9 @@ export class ProgressBarComponent implements OnInit, AfterViewChecked {
   
 
   finish($event) {
-    if($event.action==="done"){
+    if($event.action==="done" && !this.disabled){
       this.finishedCallback();
-      console.log('finished');
+      console.log(this.disabled, 'finished');
     }
   }
 

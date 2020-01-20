@@ -15,7 +15,8 @@ export class TestDetailsComponent implements OnInit {
   report: any;
   loaded = false;
   scoresData: Array<any> = [];
-  constructor(private _tests: TestsService, private _route: ActivatedRoute) {
+  constructor(private _tests: TestsService, private _route: ActivatedRoute,
+    private _router: Router) {
     this.test = this._tests.getSaved();
    }
 
@@ -50,7 +51,7 @@ export class TestDetailsComponent implements OnInit {
   }
 
   viewMore(response) {
-
+    this._router.navigate(['/testing' + '/'+ this.test.id +'/'+ response.username])
   }
 
   responsesLen() {

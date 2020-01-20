@@ -62,17 +62,20 @@ router.get('/created', util.isValidUser, function(req, res, next) {
 router.get('/available', util.isValidUser, function(req, res, next) {
   Tests.find({}, (err, testDocs) => {
     Responses.find({username: req.user.username, finished: true}, (err, responseDocs) => {
-      let unavailable = new Set();
+      let finished = new Set();
       let scores = new Map();
       responseDocs.forEach((res, i)=>{
-        unavailable.add(res.testId);
+        finished.add(res.testId);
         scores.set(res.testId, res.score);
       })
 
       let testMap = [];
       testDocs.forEach((test,i) => {
         util.cleanAnswers(test);
-        testMap[i] = { test, available: !unavailable.has(test.id), score: scores.get(test.id)};
+        if(test.type==='T')
+          testMap[i] = { test, finished: finished.has(test.id), score: scores.get(test.id)};
+        else 
+          testMap[i] = {test, finished: finished.has(test.id)}
       })
 
       res.send(200, testMap);
@@ -94,19 +97,27 @@ router.post('/get', util.isValidUser, function(req, res, next) {
 })
 
 router.post('/getresponse', util.isValidUser, function(req, res, next) {
-  Responses.find({username: req.user.username, testId: req.body.id}, 
+  let user = req.body.username!==''?req.body.username:req.user.username;
+  Responses.find({username: user, testId: req.body.id}, 
     (err, data) => {
-      if(err){ res.send(404)}
-      else if(data.length===0) {
-        Tests.find({id:req.body.id}, (err, testData) => {
-          if(err || testData.length===0) {
-            res.send(405)
+      if(err){ res.send(404, {})}
+      Tests.find({id:req.body.id}, (err, testData) => {
+        if(err || testData.length===0) {
+          res.send(405, {})
+        } else{
+          if(testData[0].creatorUsername!==req.user.username && (data.length !==0 && data[0].username !==req.user.username)) {
+              res.send(401, {});
+              return;
+          }
+          let resp = null;
+          if(data.length) {
+            resp = data[0];
           } else{
             let answers = testData[0].questions.map(q => new Array(q.answerFields.length).fill(null))
 
-            let resp = new Responses({
+            resp = new Responses({
               testId: req.body.id,
-              username: req.user.username,
+              username: user,
               answers: answers,
               beginning: null,
               finished: false,
@@ -114,13 +125,10 @@ router.post('/getresponse', util.isValidUser, function(req, res, next) {
               score: 0
             });
             resp.save();
-            res.send(200, resp);
           }
-        })
-      }
-      else{
-        res.send(data[0]);
-      }
+          res.send(200, resp);
+        }
+      })
     })
 })
 

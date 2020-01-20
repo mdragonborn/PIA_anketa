@@ -99,7 +99,7 @@ function insertToReport(req, res, callback) {
             if(report[0].type==='T'){
                 report[0].average = (report[0].average*(report[0].responseCount-1))+req.body.response.score;
                 report[0].average /= report[0].responseCount;
-                report[0].scores[Math.floor((req.body.response.score/report[0].maxScore-0.01)*10)]++;
+                report[0].scores[req.body.response.score===0?0:Math.floor((req.body.response.score/report[0].maxScore-0.01)*10)]++;
             }
             let answers = req.body.response.answers;
             for(let question of report[0].questions) {
@@ -107,7 +107,7 @@ function insertToReport(req, res, callback) {
                 case 1:
                 case 2:
                     let k = 0;
-                    if(quertion.ordered){
+                    if(question.ordered){
                       for(let field of question.answerFields) {
                           let index = field.answers.findIndex(element => element.content===answers[i][k]);
                           if(index!==-1){

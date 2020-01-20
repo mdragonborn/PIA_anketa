@@ -38,10 +38,15 @@ export class IspitanikHomeComponent implements OnInit {
 
   available(info) {
     // Vremenska zona
-    return (new Date(info.test.end)>new Date()) && info.available;
+    return (new Date(info.test.end)>new Date()) && !info.finished;
   }
 
   start(t) {
+    this._tests.setSaved(t.test);
+    this._router.navigate(['/testing', t.test.id]);
+  }
+
+  viewResponse(t) {
     this._tests.setSaved(t.test);
     this._router.navigate(['/testing', t.test.id]);
   }

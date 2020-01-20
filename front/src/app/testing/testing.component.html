@@ -1,6 +1,7 @@
-<div *ngIf="loaded; else notloaded">
-    <div class="box filled center test-lower wide">
-    <h4>{{type()}}: {{testInfo.name}}</h4>
+<div *ngIf="loaded; else notloaded" class="test-lower">
+    <a (click)='back()' style="position:absolute; left: 20px;">&lt; Nazad</a>  <br> 
+    <div class="box filled center wide">
+        <h4>{{type()}}: {{testInfo.name}}</h4>
     <div>{{testInfo.info}}</div>
     </div>
 <div *ngIf="!started; else displayTest" class='centered'>
@@ -8,13 +9,13 @@
     <button (click)="startTest()">Počni</button><br>
 </div>
 <ng-template #displayTest>
-    <app-progress-bar [endTime]="endTime" [answers]="response.answers" [finishedCallback]='finished'></app-progress-bar>
+    <app-progress-bar [endTime]="endTime" [answers]="response.answers" [finishedCallback]='finished' [disabled]='preview'></app-progress-bar>
     <div *ngFor="let question of testInfo.questions; let i = index" [attr.data-index]="i">
-        <app-display-question [question]='question' [answers]='response.answers[i]' [index]="i+1"  classes="wide"></app-display-question>
+        <app-display-question [question]='question' [answers]='response.answers[i]' [index]="i+1"  classes="wide" [disabled]="preview"></app-display-question>
     </div>
     <div class="box filled wide" style="display: grid">
-        <button (click)="save()">Sacuvaj</button><br>
-        <button (click)="submit()">Predaj</button>
+        <button (click)="save()" [disabled]="preview">Sacuvaj</button><br>
+        <button (click)="submit()" [disabled]="preview">Predaj</button>
     </div>
 </ng-template>
 <span style="color: red;">{{this.errorMsgStart}}</span>

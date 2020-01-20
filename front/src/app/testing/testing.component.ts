@@ -1,4 +1,5 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, Input } from '@angular/core';
+import {Location} from '@angular/common'
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestsService } from '../tests.service';
 import { UserService } from '../user.service';
@@ -20,9 +21,12 @@ export class TestingComponent implements OnInit, OnDestroy {
   errorMsgStart: string;
   loaded= false;
   endTime = new Date();
+  preview = true;
+
+  username: string = "";
 
   constructor(private _route: ActivatedRoute, private _router: Router,
-    private _tests: TestsService, private _user: UserService) {
+    private _tests: TestsService, private _user: UserService, private _location: Location) {
       this.finished = this.finished.bind(this);
       _user.checkLogin()
     }
@@ -30,6 +34,7 @@ export class TestingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._route.params.subscribe(params => {
       this.testId = +params['id'];
+      this.username = params['username'] || '';
       let temp = this._tests.getSaved();
       if(temp && temp['id']===this.testId){
         this.testInfo = temp;
@@ -47,6 +52,10 @@ export class TestingComponent implements OnInit, OnDestroy {
     });
   }
 
+  back() {
+    this._location.back();
+  }
+
   ngOnDestroy() {
     if(this.response && this.response.beginning && !this.response.finished){
       if(window.confirm('Da li zelite da sacuvate vase odgovore?')){
@@ -56,14 +65,24 @@ export class TestingComponent implements OnInit, OnDestroy {
   }
 
   getResponse() {
-    this._tests.getResponse(this.testId).subscribe(data => {
+    this._tests.getResponse(this.testId, this.username).subscribe(data => {
       this.response = data;
+      if(!this.response.finished){
+        this.preview = false;
+      } else if(this.testInfo.type==='T') {
+          this._router.navigate(['/home']);
+      }
+      console.log(this.response, this.preview)
+
       if(this.response.beginning) this.started = true;
       if(this.response.end) {
         this.endTime = new Date(this.response.end);
       }
       this.loaded = true;
     }, err =>{
+      if(err.status===401) {
+        this._router.navigate(['/home']);
+      }
       this.loaded = true;
     })
   }
@@ -95,6 +114,10 @@ export class TestingComponent implements OnInit, OnDestroy {
   }
 
   save(){
+    if(this.preview) {
+      alert("Anketa je predata. Nije moguce izmeniti odgovor.")
+      return;
+    }
     console.log(this.response);
     this._tests.saveResponse(this.response).subscribe(
       data => {
@@ -108,6 +131,10 @@ export class TestingComponent implements OnInit, OnDestroy {
   }
 
   submit(){
+    if(this.preview !== this.response.finished) {
+      alert("Anketa je predata. Nije moguce izmeniti odgovor.")
+      return;
+    }
     console.log(this.response);
     this.response.finished = true;
     this._tests.saveResponse(this.response).subscribe(
@@ -128,6 +155,7 @@ export class TestingComponent implements OnInit, OnDestroy {
   }
 
   finished() {
+    if(this.preview) return;
     if(!this.response.finished){
       this.submit();
     } else {

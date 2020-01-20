@@ -33,8 +33,8 @@ export class TestsService {
     });
   }
 
-  getResponse(testId) {
-    return this._http.post("http://127.0.0.1:3000/tests/getresponse", {id:testId},{
+  getResponse(testId, username) {
+    return this._http.post("http://127.0.0.1:3000/tests/getresponse", {id:testId, username},{
       observe:'body',
       withCredentials:true,
       headers:new HttpHeaders().append('Content-Type', 'application/json')

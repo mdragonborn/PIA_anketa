@@ -23,6 +23,7 @@
         <td>
             <span *ngIf="available(t); else unavail"><button (click)="start(t)">Zapocni</button></span>
             <ng-template #unavail>
+                <span *ngIf="t.test.type==='A' && t.finished"><button (click)="viewResponse(t)">Pregledaj odgovore</button></span>
                 <span *ngIf="t.test.type==='T'; noscore">Osvojeni poeni: {{t.score}}/{{t.test.maxScore}}</span>
                 <ng-template #noscore>Test nije dostupan.</ng-template>
             </ng-template>
