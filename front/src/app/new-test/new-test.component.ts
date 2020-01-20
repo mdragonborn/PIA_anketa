@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, HostListener, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { UserService } from '../user.service';
 import { TestsService } from '../tests.service';
@@ -9,7 +9,11 @@ import { Router } from '@angular/router';
   templateUrl: './new-test.component.html',
   styleUrls: ['./new-test.component.css']
 })
-export class NewTestComponent implements OnInit {
+export class NewTestComponent implements OnInit, OnDestroy {
+  @HostListener('window:beforeunload', ['$event'])
+  doSomething($event) {
+    $event.returnValue='Your data will be lost!';
+  }
 
   baseForm : FormGroup = new FormGroup({
     name: new FormControl(null, Validators.required),
@@ -36,6 +40,12 @@ export class NewTestComponent implements OnInit {
     this.baseForm.get('begin').setValue(date.toISOString().substring(0,19));
     date.setDate(date.getDate()+1);
     this.baseForm.get('end').setValue(date.toISOString().substring(0,19));
+  }
+
+  ngOnDestroy() {
+      if(window.confirm('Da li zelite da sacuvate napravljeni test/anketu?')){
+        this.submit();
+      }
   }
 
   addQuestion() {
