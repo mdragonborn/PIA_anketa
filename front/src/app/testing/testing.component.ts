@@ -69,8 +69,6 @@ export class TestingComponent implements OnInit, OnDestroy {
       this.response = data;
       if(!this.response.finished){
         this.preview = false;
-      } else if(this.testInfo.type==='T') {
-          this._router.navigate(['/home']);
       }
       console.log(this.response, this.preview)
 

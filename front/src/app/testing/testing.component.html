@@ -13,7 +13,7 @@
     <div *ngFor="let question of testInfo.questions; let i = index" [attr.data-index]="i">
         <app-display-question [question]='question' [answers]='response.answers[i]' [index]="i+1"  classes="wide" [disabled]="preview"></app-display-question>
     </div>
-    <div class="box filled wide" style="display: grid">
+    <div class="box filled wide" style="display: grid" *ngIf="!preview">
         <button (click)="save()" [disabled]="preview">Sacuvaj</button><br>
         <button (click)="submit()" [disabled]="preview">Predaj</button>
     </div>

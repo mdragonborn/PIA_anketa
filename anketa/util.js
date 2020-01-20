@@ -185,16 +185,37 @@ function insertToReport(req, res, callback) {
     testData.maxScore = max;
   }
 
-  function saveResponse(req, res) {
+  function saveResponse(req, res, callback) {
+
     Responses.findOneAndUpdate({_id:req.body.response._id}, 
       {$set:{answers: req.body.response.answers, finished: req.body.response.finished, score: req.body.response.score }}, {'new':true, 
       useFindAndModify: false,
       upsert: true}, 
       (err, result) => {
-        if(err) res.send(400,{});
-        res.send(200, { score: req.body.response.score });
+        if(callback) {
+          callback()
+        }
+        if(res){
+          if(err) res.send(400,{});
+          else res.send(200, { score: req.body.response.score });
+        }
       });
   }
+
+function getReport(req, res, test) {
+  Reports.find({testId: req.body.testId}, (err, report) => {
+    // check creator id and body user id
+    Responses.find({testId: req.body.testId, finished: true}, (err2, responses) => {
+      if(err || err2 || report.length===0) {
+        res.send(400, {});
+      } else {
+        let baseInfo = responses.map(r => {return {username: r.username, endTime: r.endTime, score: r.score}});
+        res.send(200, {test: test, report: report[0], responsesInfo: baseInfo});
+      }
+    })
+  })
+}
+
 
   module.exports = {
       isValidUser,
@@ -204,4 +225,5 @@ function insertToReport(req, res, callback) {
       processQuestions,
       addToDB,
       saveResponse,
+      getReport,
   }
