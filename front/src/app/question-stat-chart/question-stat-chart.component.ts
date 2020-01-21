@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-question-stat-chart',
@@ -34,11 +34,13 @@ export class QuestionStatChartComponent implements OnInit, AfterViewInit {
         }
         else {
           this.results = this.reportQuestion.answerFields.map(field => {
-            return {
-              name: field.answers[0].content,
-              value: field.answers[0].occurrences
-            }
-          })
+            return field.answers.map(answer => {
+              return {
+                name: answer.content,
+                value: answer.occurrences
+              }
+            })
+          }).flat();
         }
         break;
       case 4:
@@ -53,7 +55,7 @@ export class QuestionStatChartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     if((this.question.type===1 || this.question.type===2) && this.question.ordered){
       let h = this.results.length*220;
       this.mainDiv.nativeElement.setAttribute('style','min-height: '+h+ 'px;');

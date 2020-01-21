@@ -12,7 +12,15 @@
                 ></ngx-charts-bar-vertical>
             </div>
         </span>
-        <ng-template #unordered></ng-template>
+        <ng-template #unordered>
+            <ngx-charts-bar-vertical
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="results"
+                [xAxis]="true"
+                [yAxis]="true"
+                ></ngx-charts-bar-vertical>
+        </ng-template>
     </div>
     <div *ngSwitchCase="2"></div>
     <div *ngSwitchCase="4">
