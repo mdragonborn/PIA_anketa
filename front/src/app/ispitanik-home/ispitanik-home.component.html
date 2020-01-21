@@ -1,4 +1,6 @@
 <h3>Dostupni testovi i ankete</h3>
+<span *ngIf="!odobren; else odobrenn">Niste odobreni korisnik. Sacekajte da vas administrator odobri.</span>
+<ng-template #odobrenn>
 <span *ngIf="loading; else loaded">Loading...</span>
 <ng-template #loaded>
 <table>
@@ -31,4 +33,5 @@
     </tr>
 </table>
 <span *ngIf="tests.length===0"  class='centered'>Nema dostupnih testova.</span>
+</ng-template>
 </ng-template>

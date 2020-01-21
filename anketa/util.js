@@ -12,7 +12,11 @@ function isValidUser(req,res,next){
 
 
 async function addToDB(req, res) {
-    var user = new User({
+  User.find({username: req.body.username}, (err, results) => {
+    if(results.length!==0) {
+      return  res.send(400, {});
+    }
+      var user = new User({
         email:req.body.email,
         username:req.body.username,
         ime: req.body.ime,
@@ -28,12 +32,13 @@ async function addToDB(req, res) {
     });
 
     try{
-        doc = await user.save();
-        return  res.status(201).json(doc);
+        user.save();
+        return  res.send(200, {});
     }
     catch(err) {
         return res.status(501).json(err);
     }
+  })
 }
   
   function cleanAnswers(test) {
@@ -45,7 +50,7 @@ async function addToDB(req, res) {
   function gradeTest(req, res, callback) {
     Tests.find({id: req.body.response.testId}, (err, test) => {
         if(err) {
-            req.status(400);
+            res.status(400);
             return;
         }
       if(test[0].type==='T') {

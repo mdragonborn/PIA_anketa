@@ -12,7 +12,7 @@ export class ChangePwdComponent implements OnInit {
 
   errorMsg: string;
   registerForm : FormGroup=new FormGroup({
-    password: new FormControl(null, [Validators.required]), //, Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"),]),
+    password:new FormControl(null, [Validators.required, Validators.pattern("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}")]),
     reppassword: new FormControl(null, Validators.required),
     oldpassword: new FormControl(null, Validators.required),
   });
@@ -26,6 +26,10 @@ export class ChangePwdComponent implements OnInit {
   }
 
   submit() {
+    if(!this.registerForm.get("password").valid) {
+      this.errorMsg = "Lozinka nije dovoljno jaka. Mora da sadrzi kombinaciju malih i velikih slova, brojeva i znakova.";
+      return;
+    }
     if(!this.registerForm.valid  
       || this.registerForm.get("password").value!==this.registerForm.get("reppassword").value){
         this.errorMsg = "Lozinke se ne poklapaju.";

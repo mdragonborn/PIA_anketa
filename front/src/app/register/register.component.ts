@@ -24,7 +24,7 @@ export class RegisterComponent implements AfterViewInit {
     prezime:new FormControl(null, Validators.required),
     username:new FormControl(null, Validators.required),
     jmbg:new FormControl(null, Validators.required),
-    password:new FormControl(null, [Validators.required]),//, Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"),]),
+    password:new FormControl(null, [Validators.required, Validators.pattern("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}")]),
     passwordConfirm:new FormControl(null, Validators.required),
     kategorija: new FormControl('I', [Validators.pattern("I|K|A")]),
     captcha: new FormControl(null, Validators.required),
@@ -64,6 +64,11 @@ export class RegisterComponent implements AfterViewInit {
 
   register(){
     this.errorMsg = '';
+    if(!this.registerForm.get("password").valid) {
+      console.log(this.registerForm.get("password"))
+      this.errorMsg = "Lozinka nije dovoljno jaka. Mora da bude duze od 8 karaktera i  sadrzi kombinaciju malih i velikih slova, brojeva i znakova.";
+      return;
+    }
     if(!this.registerForm.valid  
       || this.registerForm.get("password").value!==this.registerForm.get("passwordConfirm").value){
       this.errorMsg = 'Invalid fields';
@@ -97,7 +102,12 @@ export class RegisterComponent implements AfterViewInit {
           this._router.navigate(['/admin']);
         }
       },
-      error=>console.error(error)
+      error=>{
+        if(error.status===400) {
+          this.errorMsg = "Vec postoji korisnik sa tim korisnickim imenom."
+        }
+        console.error(error)
+      }
     );
     console.log(JSON.stringify(this.registerForm.value));
 

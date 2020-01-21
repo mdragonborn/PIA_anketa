@@ -33,8 +33,8 @@ export class AdminComponent implements OnInit {
     this._userService.confirm(username).subscribe(
       data => { 
         this._userService.requests().subscribe(data => {
-        this.requests = data as Array<any>;
-        console.log(this.requests);
+          this.requests = data as Array<any>;
+          console.log(this.requests);
       });
      console.log(data);},
       error => {console.log(error);}

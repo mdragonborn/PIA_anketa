@@ -9,6 +9,9 @@
 
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
+  <span *ngIf="loggedIn">
+    &nbsp; Dobrodosli, {{username}}!
+  </span>
     <div class="spacer"></div>
       <a class="toolbar-link" [routerLink]="['/home']">Home</a>
       <span *ngIf="!loggedIn">

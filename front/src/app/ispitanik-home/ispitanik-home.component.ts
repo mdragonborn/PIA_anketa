@@ -12,10 +12,13 @@ export class IspitanikHomeComponent implements OnInit {
 
   tests: Array<any>;
   loading = true;
+  odobren = false;
   constructor(private _user: UserService,
     private _tests: TestsService,
     private _router: Router) {
-    this._user.checkLogin();
+    this._user.checkLogin(() => {
+      this.odobren = this._user.userObj.odobren;
+    });
     this._tests.getAvailable().subscribe(
       data => {
         console.log(data);
