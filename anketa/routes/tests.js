@@ -42,10 +42,18 @@ router.post('/new', util.isValidUser, function(req, res, next) {
       else {
         test.save();
         report.save();
+        util.saveQuestions(testData.questions);
         res.send(200, {});
       }
     })
   });
+})
+
+router.post('/searchq', util.isValidUser, function(req, res, next) {
+  Questions.find({question: {$regex: ".*"+req.body.query+".*"}}, (err, result) => {
+    console.log(result)
+    res.send(200, result);
+  })
 })
 
 router.get('/created', util.isValidUser, function(req, res, next) {

@@ -2,6 +2,8 @@ var Tests = require('./models/test');
 var User = require('./models/user');
 var Responses = require('./models/responses');
 var Reports = require('./models/report');
+var Counter = require('./models/counter');
+var Questions = require('./models/question')
 
 function isValidUser(req,res,next){
     if(req.isAuthenticated()) next();
@@ -216,6 +218,21 @@ function getReport(req, res, test) {
   })
 }
 
+function saveQuestions(questions) {
+  for(let q of questions) {
+    if(q.id) {
+      continue;
+    }
+    Counter.counter('question', (id) => {
+      let question = new Questions({
+        id: id.next,
+        ...q
+      });
+      question.save();
+    });
+  }
+}
+
 
   module.exports = {
       isValidUser,
@@ -226,4 +243,5 @@ function getReport(req, res, test) {
       addToDB,
       saveResponse,
       getReport,
+      saveQuestions,
   }
