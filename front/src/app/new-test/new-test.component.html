@@ -48,11 +48,26 @@
         <option [ngValue]='3' *ngIf="this.baseForm.get('type').value == 'A'">Slobodan unos dugog teksta</option>
         <option [ngValue]='4'>Izbor jednog od ponudjenih odgovora</option>
         <option [ngValue]='5'>Izbor vise od ponudjenih odgovora</option>
+        <option [ngValue]='6'>Pretraga postojece baze pitanja</option>
     </select>
     <button (click)='confirmNewQuestion()'>Dodaj</button>
 </div>
+<div *ngIf="showSearch">
+    <button (click)="cancelSearch()">Otkazi pretragu</button><br>
+    Tekst za pretragu: <br>
+    <input [(ngModel)]="searchQuery" type="string"><button (click)="runSearch()">Trazi</button> <br>
+    <div *ngIf="searchResults.length">
+        Tekst pitanja:
+        <div *ngFor="let q of searchResults">
+            <span *ngIf="q.type!==3 || (q.type===3 && this.baseForm.get('type').value == 'A')">
+                <p>{{q.question}} <button (click)="selectQuestionToAdd(q)">Izaberi</button></p>
+            </span>
+        </div>
+    </div>
+    <div *ngIf="ranSearch && !searchResults.length">Nema rezultata</div>
+</div>
 
-<div class="box filled" style="display: grid;">
+<div class="box filled wide" style="display: grid;">
 <button (click)="addQuestion()">Dodaj pitanje</button><br>
 <button (click)="submit()">Sacuvaj test</button>
 </div>

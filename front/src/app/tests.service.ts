@@ -88,4 +88,12 @@ export class TestsService {
       headers:new HttpHeaders().append('Content-Type', 'application/json')
     });
   }
+
+  search(query) {
+    return this._http.post("http://127.0.0.1:3000/tests/searchq", {query},{
+      observe:'body',
+      withCredentials:true,
+      headers:new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
 }

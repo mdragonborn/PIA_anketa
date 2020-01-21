@@ -30,7 +30,7 @@ export class NewQuestionComponent implements OnInit {
   }
 
   questionType() {
-    return this.group.get('type').value;
+    return +this.group.get('type').value;
   }
 
   answerFields() {

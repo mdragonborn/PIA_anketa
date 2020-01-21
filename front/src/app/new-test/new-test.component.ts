@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class NewTestComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   doSomething($event) {
+    if(this.saved) return;
     $event.returnValue='Your data will be lost!';
   }
 
@@ -27,6 +28,13 @@ export class NewTestComponent implements OnInit, OnDestroy {
   questionTypes = { 1: 'number', 2: 'string', 3: 'text', 4: 'radio', 5: 'checkbox'};
   selectedType = 1;
   errorMsg: String = "";
+  showSearch = false;
+  searchQuery: String = "";
+  searchResults: Array<any> = [];
+  saved = false;
+  touched = false;
+  ranSearch = false;
+  
   @ViewChild('newquestionprompt', {static:false}) qPrompt: ElementRef;
 
   constructor(private renderer: Renderer2, private _user: UserService,
@@ -43,18 +51,64 @@ export class NewTestComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if(!this.saved && this.touched)
       if(window.confirm('Da li zelite da sacuvate napravljeni test/anketu?')){
         this.submit();
       }
   }
 
   addQuestion() {
+    this.touched = true;
     this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:block;');
   }
+
+  runSearch() {
+    this._test.search(this.searchQuery).subscribe(
+      data => {
+        this.searchResults = data as Array<any>;
+        this.ranSearch = true;
+      }
+    )
+  }
+
+selectQuestionToAdd(q) {
+  let answerFields = []
+  for(let a of q.answerFields){
+    let answerFormGroup = new FormGroup({
+      type: new FormControl(a.type),
+      extraInfo: new FormControl(a.extraInfo),
+      answer: new FormControl(a.answer),
+    });
+    answerFields.push(answerFormGroup);
+  }
+  let questionGroup = new FormGroup({
+    question: new FormControl(q.question, Validators.required), 
+    id: new FormControl(q.id),
+    type: new FormControl(q.type, Validators.required),
+    weight: new FormControl(q.weight),
+    ordered: new FormControl(q.ordered),
+    answerFields: new FormArray(answerFields)});
+
+    this.questions.push(questionGroup);
+
+ this.cancelSearch()
+}
+
+cancelSearch() {
+  this.showSearch = false;
+  this.searchQuery = "";
+  this.searchResults = [];
+  this.ranSearch = false;
+}
 
   ngOnChange() {}
 
   confirmNewQuestion() {
+    if(this.selectedType===6) {
+      this.showSearch = true;
+      this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:none');
+      return;
+    }
     let answerFormGroup = new FormGroup({
       type: new FormControl(this.questionTypes[this.selectedType]),
       extraInfo: new FormControl(null),
@@ -123,6 +177,7 @@ export class NewTestComponent implements OnInit, OnDestroy {
     this._test.newTest(this.baseForm.value).subscribe(
       data => {
         console.log(data);
+        this.saved = true;
         this._router.navigate(['/kreator']);
       },
       err => {
