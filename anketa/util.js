@@ -63,8 +63,10 @@ async function addToDB(req, res) {
             if(!question.ordered && question.type!==5) {
               req.body.response.answers[i].sort();
             }
-            if(question.type===2) 
+            if(question.type===2) {
               req.body.response.answers[i] = req.body.response.answers[i].map(a => {return a!==null?a.toLowerCase():a})
+              question.answerFields.forEach(field => field.answer = field.answer!==null?field.answer.toLowerCase():field.answer);
+            }
             for(let k=0, j=0; k<question.answerFields.length && j<question.answerFields.length; k++, j++) {
               while(!question.ordered
                 && question.answerFields[k].answer>req.body.response.answers[i][j]
