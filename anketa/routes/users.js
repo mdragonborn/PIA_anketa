@@ -65,7 +65,7 @@ router.get('/requests', util.isValidUser, function(req, res, next){
 });
 
 router.get('/confirm/:username', util.isValidUser, function(req, res, next){
-  if(req.user['kategorija']!=='A')   return res.status(401);
+  if(req.user['kategorija']!=='A')   return res.send(401, {});
   User.findOne({username:req.params.username}, function(err, doc){
     if(err){
       res.send(304, {error: err});
@@ -73,11 +73,9 @@ router.get('/confirm/:username', util.isValidUser, function(req, res, next){
     else {
       doc.odobren = true;
       doc.save();
-      req.logout();
       res.send(200, {message: 'success'});
     }
   });
-  console.log(req.params.username);
 });
 
 module.exports = router;

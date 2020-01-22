@@ -20,9 +20,9 @@ export class AdminComponent implements OnInit {
 
     this._userService.requests().subscribe(data => {
       this.requests = data as Array<any>;
-      console.log(this.requests);
     },
-    err => { this.errorMsg = err;})
+    err => { 
+      this.errorMsg = err;})
    }
 
   ngOnInit() {

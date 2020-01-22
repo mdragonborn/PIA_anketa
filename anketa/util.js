@@ -218,7 +218,7 @@ function getReport(req, res, test) {
       if(err || err2 || report.length===0) {
         res.send(400, {});
       } else {
-        let baseInfo = responses.map(r => {return {username: r.username, endTime: r.endTime, score: r.score}});
+        let baseInfo = responses.map(r => {return {username: test.anon?null:r.username, endTime: r.endTime, score: r.score}});
         res.send(200, {test: test, report: report[0], responsesInfo: baseInfo});
       }
     })

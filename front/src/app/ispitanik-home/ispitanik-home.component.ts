@@ -54,4 +54,8 @@ export class IspitanikHomeComponent implements OnInit {
     this._router.navigate(['/testing', t.test.id]);
   }
 
+  dateString(dateStr) {
+    return new Date(dateStr).toLocaleString()
+  }
+
 }

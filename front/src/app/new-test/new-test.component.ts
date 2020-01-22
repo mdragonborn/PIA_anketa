@@ -20,6 +20,7 @@ export class NewTestComponent implements OnInit, OnDestroy {
     name: new FormControl(null, Validators.required),
     type: new FormControl('A', [Validators.required, Validators.pattern('A|T')]),
     info: new FormControl(null),
+    anon: new FormControl(false),
     begin: new FormControl(null, Validators.required),
     end: new FormControl(null, Validators.required),
     durationMin: new FormControl(null, Validators.required),
@@ -58,6 +59,7 @@ export class NewTestComponent implements OnInit, OnDestroy {
   }
 
   addQuestion() {
+    console.log(this.baseForm)
     this.touched = true;
     this.renderer.setProperty(this.qPrompt.nativeElement, 'style', 'display:block;');
   }
@@ -169,6 +171,13 @@ cancelSearch() {
       }
       i++;
     }
+
+    if(this.baseForm.get('type').value==='T'){
+      this.baseForm.get('anon').setValue(null);
+    }
+
+    console.log(this.baseForm)
+
     if(invalid) return;
 
     let data = this.baseForm.value;

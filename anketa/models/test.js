@@ -6,6 +6,7 @@ var schemaTest = new Schema({
     name: {type: String, required: true},
     info: {type: String},
     creatorUsername: {type: String, required: true},
+    anon: {type: Boolean},
     type: {type: String, required: true},
     begin: {type: Date, required: true},
     end: {type: Date},

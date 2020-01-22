@@ -22,11 +22,13 @@
     <div class="responses" *ngIf="responsesLen(); else noresponse">
         <h3>Odgovori</h3>
         <div class="response-bar head">
-            <span class="user">Korisnicko ime</span>
+            <span class="user" *ngIf="!test.anon; else isanon">Korisnicko ime</span>
+            <ng-template id="isanon" #isanon><span  class="user">Redni broj</span></ng-template>
             <span>Ceo odgovor</span>
         </div>
-        <div *ngFor='let response of responsesInfo' class="response-bar">
-            <span class="user">{{response.username}}</span>
+        <div *ngFor='let response of responsesInfo; let i=index;' [attr.data-index]="i" class="response-bar">
+            <span class="user" *ngIf="!test.anon; else isanon">{{response.username}}</span>
+            <ng-template id="isanon" #isanon  class="user"><span  class="user">{{i+1}}.</span></ng-template>
             <button (click)="viewMore(response)" class="add-btn">+</button>
         </div>
     </div>

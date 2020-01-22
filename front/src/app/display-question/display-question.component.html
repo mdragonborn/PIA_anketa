@@ -1,5 +1,5 @@
 <div [class]="classes +' box'">
-{{index}}. {{question.question}}<br><br>
+{{index}}. {{question.question}} <span *ngIf="question.weight">({{question.weight}} p)</span><br><br>
 <div *ngFor="let ansField of question.answerFields; let i = index" [attr.data-index]="i">
     <div [ngSwitch]="question.type">
         <div *ngSwitchCase="1">

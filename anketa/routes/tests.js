@@ -72,9 +72,9 @@ router.get('/available', util.isValidUser, function(req, res, next) {
     Responses.find({username: req.user.username, finished: true}, (err, responseDocs) => {
       let finished = new Set();
       let scores = new Map();
-      responseDocs.forEach((res, i)=>{
-        finished.add(res.testId);
-        scores.set(res.testId, res.score);
+      responseDocs.forEach((resp, i)=>{
+        finished.add(resp.testId);
+        scores.set(resp.testId, resp.score);
       })
 
       let testMap = [];
